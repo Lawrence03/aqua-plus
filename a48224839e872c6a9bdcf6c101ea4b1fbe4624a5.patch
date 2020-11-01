@@ -1,0 +1,273 @@
+From a48224839e872c6a9bdcf6c101ea4b1fbe4624a5 Mon Sep 17 00:00:00 2001
+From: esterTion <lcz970@126.com>
+Date: Mon, 21 Sep 2020 18:22:01 +0800
+Subject: [PATCH] chuni: chuni-net standard course specific endpoints
+
+---
+ .../controller/ChuniServletController.java    | 16 ++++++-
+ .../impl/GetUserFavoriteItemHandler.java      | 46 +++++++++++++++++++
+ .../handler/impl/GetUserPreviewHandler.java   | 11 +++++
+ .../handler/impl/GetUserTeamHandler.java      | 44 ++++++++++++++++++
+ .../handler/impl/UpsertUserAllHandler.java    |  7 +++
+ .../model/response/GetUserPreviewResp.java    |  3 ++
+ 6 files changed, 126 insertions(+), 1 deletion(-)
+ create mode 100644 src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserFavoriteItemHandler.java
+ create mode 100644 src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserTeamHandler.java
+
+diff --git a/src/main/java/icu/samnyan/aqua/sega/chunithm/controller/ChuniServletController.java b/src/main/java/icu/samnyan/aqua/sega/chunithm/controller/ChuniServletController.java
+index e38775a..63b92da 100644
+--- a/src/main/java/icu/samnyan/aqua/sega/chunithm/controller/ChuniServletController.java
++++ b/src/main/java/icu/samnyan/aqua/sega/chunithm/controller/ChuniServletController.java
+@@ -34,6 +34,7 @@ public class ChuniServletController {
+     private final GetUserDataExHandler getUserDataExHandler;
+     private final GetUserDataHandler getUserDataHandler;
+     private final GetUserDuelHandler getUserDuelHandler;
++    private final GetUserFavoriteItemHandler getUserFavoriteItemHandler;
+     private final GetUserItemHandler getUserItemHandler;
+     private final GetUserMapHandler getUserMapHandler;
+     private final GetUserMusicHandler getUserMusicHandler;
+@@ -42,6 +43,7 @@ public class ChuniServletController {
+     private final GetUserPreviewHandler getUserPreviewHandler;
+     private final GetUserRecentRatingHandler getUserRecentRatingHandler;
+     private final GetUserRegionHandler getUserRegionHandler;
++    private final GetUserTeamHandler getUserTeamHandler;
+     private final UpsertClientBookkeepingHandler upsertClientBookkeepingHandler;
+     private final UpsertClientDevelopHandler upsertClientDevelopHandler;
+     private final UpsertClientErrorHandler upsertClientErrorHandler;
+@@ -51,7 +53,7 @@ public class ChuniServletController {
+     private final UpsertUserChargelogHandler upsertUserChargelogHandler;
+ 
+     @Autowired
+-    public ChuniServletController(GameLoginHandler gameLoginHandler, GameLogoutHandler gameLogoutHandler, GetGameChargeHandler getGameChargeHandler, GetGameEventHandler getGameEventHandler, GetGameIdlistHandler getGameIdlistHandler, GetGameMessageHandler getGameMessageHandler, GetGameRankingHandler getGameRankingHandler, GetGameSaleHandler getGameSaleHandler, GetGameSettingHandler getGameSettingHandler, GetUserActivityHandler getUserActivityHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserChargeHandler getUserChargeHandler, GetUserCourseHandler getUserCourseHandler, GetUserDataExHandler getUserDataExHandler, GetUserDataHandler getUserDataHandler, GetUserDuelHandler getUserDuelHandler, GetUserItemHandler getUserItemHandler, GetUserMapHandler getUserMapHandler, GetUserMusicHandler getUserMusicHandler, GetUserOptionExHandler getUserOptionExHandler, GetUserOptionHandler getUserOptionHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRecentRatingHandler getUserRecentRatingHandler, GetUserRegionHandler getUserRegionHandler, UpsertClientBookkeepingHandler upsertClientBookkeepingHandler, UpsertClientDevelopHandler upsertClientDevelopHandler, UpsertClientErrorHandler upsertClientErrorHandler, UpsertClientSettingHandler upsertClientSettingHandler, UpsertClientTestmodeHandler upsertClientTestmodeHandler, UpsertUserAllHandler upsertUserAllHandler, UpsertUserChargelogHandler upsertUserChargelogHandler) {
++    public ChuniServletController(GameLoginHandler gameLoginHandler, GameLogoutHandler gameLogoutHandler, GetGameChargeHandler getGameChargeHandler, GetGameEventHandler getGameEventHandler, GetGameIdlistHandler getGameIdlistHandler, GetGameMessageHandler getGameMessageHandler, GetGameRankingHandler getGameRankingHandler, GetGameSaleHandler getGameSaleHandler, GetGameSettingHandler getGameSettingHandler, GetUserActivityHandler getUserActivityHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserChargeHandler getUserChargeHandler, GetUserCourseHandler getUserCourseHandler, GetUserDataExHandler getUserDataExHandler, GetUserDataHandler getUserDataHandler, GetUserDuelHandler getUserDuelHandler, GetUserFavoriteItemHandler getUserFavoriteItemHandler, GetUserItemHandler getUserItemHandler, GetUserMapHandler getUserMapHandler, GetUserMusicHandler getUserMusicHandler, GetUserOptionExHandler getUserOptionExHandler, GetUserOptionHandler getUserOptionHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRecentRatingHandler getUserRecentRatingHandler, GetUserRegionHandler getUserRegionHandler, GetUserTeamHandler getUserTeamHandler, UpsertClientBookkeepingHandler upsertClientBookkeepingHandler, UpsertClientDevelopHandler upsertClientDevelopHandler, UpsertClientErrorHandler upsertClientErrorHandler, UpsertClientSettingHandler upsertClientSettingHandler, UpsertClientTestmodeHandler upsertClientTestmodeHandler, UpsertUserAllHandler upsertUserAllHandler, UpsertUserChargelogHandler upsertUserChargelogHandler) {
+         this.gameLoginHandler = gameLoginHandler;
+         this.gameLogoutHandler = gameLogoutHandler;
+         this.getGameChargeHandler = getGameChargeHandler;
+@@ -68,6 +70,7 @@ public class ChuniServletController {
+         this.getUserDataExHandler = getUserDataExHandler;
+         this.getUserDataHandler = getUserDataHandler;
+         this.getUserDuelHandler = getUserDuelHandler;
++        this.getUserFavoriteItemHandler = getUserFavoriteItemHandler;
+         this.getUserItemHandler = getUserItemHandler;
+         this.getUserMapHandler = getUserMapHandler;
+         this.getUserMusicHandler = getUserMusicHandler;
+@@ -76,6 +79,7 @@ public class ChuniServletController {
+         this.getUserPreviewHandler = getUserPreviewHandler;
+         this.getUserRecentRatingHandler = getUserRecentRatingHandler;
+         this.getUserRegionHandler = getUserRegionHandler;
++        this.getUserTeamHandler = getUserTeamHandler;
+         this.upsertClientBookkeepingHandler = upsertClientBookkeepingHandler;
+         this.upsertClientDevelopHandler = upsertClientDevelopHandler;
+         this.upsertClientErrorHandler = upsertClientErrorHandler;
+@@ -170,6 +174,11 @@ public class ChuniServletController {
+         return getUserDuelHandler.handle(request);
+     }
+ 
++    @PostMapping("GetUserFavoriteItemApi")
++    String getUserFavoriteItem(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
++        return getUserFavoriteItemHandler.handle(request);
++    }
++
+     @PostMapping("GetUserItemApi")
+     String getUserItem(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+         return getUserItemHandler.handle(request);
+@@ -219,6 +228,11 @@ public class ChuniServletController {
+         return getUserRegionHandler.handle(request);
+     }
+ 
++    @PostMapping("GetUserTeamApi")
++    String getUserTeam(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
++        return getUserTeamHandler.handle(request);
++    }
++
+     @PostMapping("UpsertClientBookkeepingApi")
+     String upsertClientBookkeeping(@ModelAttribute Map<String, Object> request) {
+         return "{\"returnCode\":\"1\"}";
+diff --git a/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserFavoriteItemHandler.java b/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserFavoriteItemHandler.java
+new file mode 100644
+index 0000000..d23b833
+--- /dev/null
++++ b/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserFavoriteItemHandler.java
+@@ -0,0 +1,46 @@
++package icu.samnyan.aqua.sega.chunithm.handler.impl;
++
++import com.fasterxml.jackson.core.JsonProcessingException;
++import icu.samnyan.aqua.sega.chunithm.handler.BaseHandler;
++import icu.samnyan.aqua.sega.util.jackson.StringMapper;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Component;
++
++import java.util.ArrayList;
++import java.util.LinkedHashMap;
++import java.util.Map;
++
++/**
++ * @author samnyan (privateamusement@protonmail.com)
++ */
++@Component
++public class GetUserFavoriteItemHandler implements BaseHandler {
++
++    private static final Logger logger = LoggerFactory.getLogger(GetUserFavoriteItemHandler.class);
++
++    private final StringMapper mapper;
++
++    @Autowired
++    public GetUserFavoriteItemHandler(StringMapper mapper) {
++        this.mapper = mapper;
++    }
++
++    @Override
++    public String handle(Map<String, Object> request) throws JsonProcessingException {
++        String userId = (String) request.get("userId");
++        String kind = (String) request.get("kind");
++
++        Map<String, Object> resultMap = new LinkedHashMap<>();
++        resultMap.put("userId", userId);
++        resultMap.put("kind", kind);
++        resultMap.put("length", 0);
++        resultMap.put("nextIndex", 0);
++        resultMap.put("userFavoriteItemList", new ArrayList<>());
++
++        String json = mapper.write(resultMap);
++        logger.info("Response: " + json);
++        return json;
++    }
++}
+diff --git a/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserPreviewHandler.java b/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserPreviewHandler.java
+index 1def9cf..69fef5b 100644
+--- a/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserPreviewHandler.java
++++ b/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserPreviewHandler.java
+@@ -5,9 +5,11 @@ import icu.samnyan.aqua.sega.chunithm.handler.BaseHandler;
+ import icu.samnyan.aqua.sega.chunithm.model.response.GetUserPreviewResp;
+ import icu.samnyan.aqua.sega.chunithm.model.userdata.UserCharacter;
+ import icu.samnyan.aqua.sega.chunithm.model.userdata.UserData;
++import icu.samnyan.aqua.sega.chunithm.model.userdata.UserDataEx;
+ import icu.samnyan.aqua.sega.chunithm.model.userdata.UserGameOption;
+ import icu.samnyan.aqua.sega.chunithm.service.UserCharacterService;
+ import icu.samnyan.aqua.sega.chunithm.service.UserDataService;
++import icu.samnyan.aqua.sega.chunithm.service.UserDataExService;
+ import icu.samnyan.aqua.sega.chunithm.service.UserGameOptionService;
+ import icu.samnyan.aqua.sega.util.jackson.StringMapper;
+ import org.slf4j.Logger;
+@@ -35,6 +37,7 @@ public class GetUserPreviewHandler implements BaseHandler {
+ 
+     private final UserDataService userDataService;
+     private final UserCharacterService userCharacterService;
++    private final UserDataExService userDataExService;
+     private final UserGameOptionService userGameOptionService;
+ 
+     private final boolean overwriteVersion;
+@@ -45,6 +48,7 @@ public class GetUserPreviewHandler implements BaseHandler {
+     public GetUserPreviewHandler(StringMapper mapper,
+                                  UserDataService userDataService,
+                                  UserCharacterService userCharacterService,
++                                 UserDataExService userDataExService,
+                                  UserGameOptionService userGameOptionService,
+                                  @Value("${game.chunithm.overwrite-version}") boolean overwriteVersion,
+                                  @Value("${game.chunithm.rom-version}") String romVersion,
+@@ -53,6 +57,7 @@ public class GetUserPreviewHandler implements BaseHandler {
+         this.mapper = mapper;
+         this.userDataService = userDataService;
+         this.userCharacterService = userCharacterService;
++        this.userDataExService = userDataExService;
+         this.userGameOptionService = userGameOptionService;
+         this.overwriteVersion = overwriteVersion;
+         this.romVersion = romVersion;
+@@ -104,6 +109,12 @@ public class GetUserPreviewHandler implements BaseHandler {
+             resp.setHeadphone(userGameOption.getHeadphone());
+         });
+ 
++        resp.setChargeState(1);
++        Optional<UserDataEx> userDataExOptional = userDataExService.getByUser(user);
++        userDataExOptional.ifPresent(userDataEx -> {
++            resp.setUserNameEx(userDataEx.getExtStr1());
++        });
++
+         String json = mapper.write(resp);
+         logger.info("Response: " + json);
+         return json;
+diff --git a/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserTeamHandler.java b/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserTeamHandler.java
+new file mode 100644
+index 0000000..0476e88
+--- /dev/null
++++ b/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/GetUserTeamHandler.java
+@@ -0,0 +1,44 @@
++package icu.samnyan.aqua.sega.chunithm.handler.impl;
++
++import com.fasterxml.jackson.core.JsonProcessingException;
++import icu.samnyan.aqua.sega.chunithm.handler.BaseHandler;
++import icu.samnyan.aqua.sega.util.jackson.StringMapper;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Component;
++
++import java.util.LinkedHashMap;
++import java.util.Map;
++
++/**
++ * @author samnyan (privateamusement@protonmail.com)
++ */
++@Component
++public class GetUserTeamHandler implements BaseHandler {
++
++    private static final Logger logger = LoggerFactory.getLogger(GetUserTeamHandler.class);
++
++    private final StringMapper mapper;
++
++    @Autowired
++    public GetUserTeamHandler(StringMapper mapper) {
++        this.mapper = mapper;
++    }
++
++    @Override
++    public String handle(Map<String, Object> request) throws JsonProcessingException {
++        String userId = (String) request.get("userId");
++
++        Map<String, Object> resultMap = new LinkedHashMap<>();
++        resultMap.put("userId", userId);
++        resultMap.put("teamId", 1);
++        resultMap.put("teamRank", 1);
++        resultMap.put("teamName", "鳩屋ぐぐぐ");
++        resultMap.put("userTeamPoint", 114514);
++
++        String json = mapper.write(resultMap);
++        logger.info("Response: " + json);
++        return json;
++    }
++}
+diff --git a/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/UpsertUserAllHandler.java b/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/UpsertUserAllHandler.java
+index 4fb5499..32e96b7 100644
+--- a/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/UpsertUserAllHandler.java
++++ b/src/main/java/icu/samnyan/aqua/sega/chunithm/handler/impl/UpsertUserAllHandler.java
+@@ -314,6 +314,13 @@ public class UpsertUserAllHandler implements BaseHandler {
+             newUserDataEx.setId(userDataEx.getId());
+             newUserDataEx.setUser(userDataEx.getUser());
+ 
++            // Decode UserNameEx
++            String userNameEx = new String(newUserDataEx.getExtStr1()
++                    .getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
++
++
++            newUserDataEx.setExtStr1(userNameEx);
++
+             userDataExService.save(newUserDataEx);
+         }
+ 
+diff --git a/src/main/java/icu/samnyan/aqua/sega/chunithm/model/response/GetUserPreviewResp.java b/src/main/java/icu/samnyan/aqua/sega/chunithm/model/response/GetUserPreviewResp.java
+index 87c3452..e501dbc 100644
+--- a/src/main/java/icu/samnyan/aqua/sega/chunithm/model/response/GetUserPreviewResp.java
++++ b/src/main/java/icu/samnyan/aqua/sega/chunithm/model/response/GetUserPreviewResp.java
+@@ -35,4 +35,7 @@ public class GetUserPreviewResp {
+     private int rating;
+     private int headphone;
+ 
++    private int chargeState;
++    private String userNameEx;
++
+ }
+-- 
+GitLab
+
