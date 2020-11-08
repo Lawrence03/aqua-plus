@@ -54,6 +54,8 @@ public class UserData implements Serializable {
 
     private int totalJewelCount;
 
+    private int metalCount;
+
     private int playerRating;
 
     private int highestRating;
@@ -67,6 +69,8 @@ public class UserData implements Serializable {
     private int cardId;
 
     private int characterId;
+
+    private int characterVoiceNo;
 
     private int tabSetting;
 
@@ -106,6 +110,8 @@ public class UserData implements Serializable {
 
     private String eventWatchedDate;
 
+    private String cmEventWatchedDate;
+
     private String firstGameId;
 
     private String firstRomVersion;
@@ -119,7 +125,6 @@ public class UserData implements Serializable {
     private String lastRomVersion;
 
     private String lastDataVersion;
-
 
     private String compatibleCmVersion;
 

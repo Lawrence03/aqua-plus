@@ -84,6 +84,10 @@ public class UserOption implements Serializable {
 
     private int judgeHit;
 
+    private int platinumBreakDisp;
+
+    private int judgeCriticalBreak;
+
     private int matching;
 
     private int dispPlayerLv;

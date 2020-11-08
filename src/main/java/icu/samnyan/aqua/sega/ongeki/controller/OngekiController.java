@@ -26,6 +26,7 @@ public class OngekiController {
     private final GetGameRankingHandler getGameRankingHandler;
     private final GetGameRewardHandler getGameRewardHandler;
     private final GetGameSettingHandler getGameSettingHandler;
+    private final GetGameTechMusicHandler getGameTechMusicHandler;
     private final GetUserActivityHandler getUserActivityHandler;
     private final GetUserBossHandler getUserBossHandler;
     private final GetUserBpBaseHandler getUserBpBaseHandler;
@@ -58,7 +59,7 @@ public class OngekiController {
     private final GetUserKopHandler getUserKopHandler;
 
     @Autowired
-    public OngekiController(GetGameEventHandler getGameEventHandler, GetGameIdlistHandler getGameIdlistHandler, GetGameMessageHandler getGameMessageHandler, GetGamePointHandler getGamePointHandler, GetGamePresentHandler getGamePresentHandler, GetGameRankingHandler getGameRankingHandler, GetGameRewardHandler getGameRewardHandler, GetGameSettingHandler getGameSettingHandler, GetUserActivityHandler getUserActivityHandler, GetUserBossHandler getUserBossHandler, GetUserBpBaseHandler getUserBpBaseHandler, GetUserCardHandler getUserCardHandler, GetUserChapterHandler getUserChapterHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserDataHandler getUserDataHandler, GetUserDeckByKeyHandler getUserDeckByKeyHandler, GetUserEventPointHandler getUserEventPointHandler, GetUserEventRankingHandler getUserEventRankingHandler, GetUserItemHandler getUserItemHandler, GetUserLoginBonusHandler getUserLoginBonusHandler, GetUserMissionPointHandler getUserMissionPointHandler, GetUserMusicHandler getUserMusicHandler, GetUserMusicItemHandler getUserMusicItemHandler, GetUserOptionHandler getUserOptionHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRatinglogListHandler getUserRatinglogListHandler, GetUserRecentRatingHandler getUserRecentRatingHandler, GetUserRegionHandler getUserRegionHandler, GetUserScenarioHandler getUserScenarioHandler, GetUserStoryHandler getUserStoryHandler, GetUserTechCountHandler getUserTechCountHandler, GetUserTrainingRoomByKeyHandler getUserTrainingRoomByKeyHandler, UpsertUserAllHandler upsertUserAllHandler, GetUserTradeItemHandler getUserTradeItemHandler, GetUserEventMusicHandler getUserEventMusicHandler, GetUserTechEventHandler getUserTechEventHandler, GetUserTechEventRankingHandler getUserTechEventRankingHandler, GetUserKopHandler getUserKopHandler) {
+    public OngekiController(GetGameEventHandler getGameEventHandler, GetGameIdlistHandler getGameIdlistHandler, GetGameMessageHandler getGameMessageHandler, GetGamePointHandler getGamePointHandler, GetGamePresentHandler getGamePresentHandler, GetGameRankingHandler getGameRankingHandler, GetGameRewardHandler getGameRewardHandler, GetGameSettingHandler getGameSettingHandler, GetGameTechMusicHandler getGameTechMusicHandler, GetUserActivityHandler getUserActivityHandler, GetUserBossHandler getUserBossHandler, GetUserBpBaseHandler getUserBpBaseHandler, GetUserCardHandler getUserCardHandler, GetUserChapterHandler getUserChapterHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserDataHandler getUserDataHandler, GetUserDeckByKeyHandler getUserDeckByKeyHandler, GetUserEventPointHandler getUserEventPointHandler, GetUserEventRankingHandler getUserEventRankingHandler, GetUserItemHandler getUserItemHandler, GetUserLoginBonusHandler getUserLoginBonusHandler, GetUserMissionPointHandler getUserMissionPointHandler, GetUserMusicHandler getUserMusicHandler, GetUserMusicItemHandler getUserMusicItemHandler, GetUserOptionHandler getUserOptionHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRatinglogListHandler getUserRatinglogListHandler, GetUserRecentRatingHandler getUserRecentRatingHandler, GetUserRegionHandler getUserRegionHandler, GetUserScenarioHandler getUserScenarioHandler, GetUserStoryHandler getUserStoryHandler, GetUserTechCountHandler getUserTechCountHandler, GetUserTrainingRoomByKeyHandler getUserTrainingRoomByKeyHandler, UpsertUserAllHandler upsertUserAllHandler, GetUserTradeItemHandler getUserTradeItemHandler, GetUserEventMusicHandler getUserEventMusicHandler, GetUserTechEventHandler getUserTechEventHandler, GetUserTechEventRankingHandler getUserTechEventRankingHandler, GetUserKopHandler getUserKopHandler) {
         this.getGameEventHandler = getGameEventHandler;
         this.getGameIdlistHandler = getGameIdlistHandler;
         this.getGameMessageHandler = getGameMessageHandler;
@@ -67,6 +68,7 @@ public class OngekiController {
         this.getGameRankingHandler = getGameRankingHandler;
         this.getGameRewardHandler = getGameRewardHandler;
         this.getGameSettingHandler = getGameSettingHandler;
+        this.getGameTechMusicHandler = getGameTechMusicHandler;
         this.getUserActivityHandler = getUserActivityHandler;
         this.getUserBossHandler = getUserBossHandler;
         this.getUserBpBaseHandler = getUserBpBaseHandler;
@@ -309,8 +311,8 @@ public class OngekiController {
     }
     
     @PostMapping("GetGameTechMusicApi")
-    public String getGameTechMusic(@ModelAttribute Map<String, Object> request) {
-        return "{\"TechMusic\": []}";
+    public String getGameTechMusic(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getGameTechMusicHandler.handle(request);
     }
 
     @PostMapping("GetUserTradeItemApi")
