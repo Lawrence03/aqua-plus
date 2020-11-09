@@ -4,13 +4,13 @@ create table ongeki_game_tech_music
 		primary key,
 	event_id int not null,
 	music_id int not null,
-	level bit not null,
+	level int not null,
     constraint ongeki_game_tech_music_uq
-        unique (event_id, music_id),
+        unique (event_id, music_id)
 );
 
 ALTER TABLE `ongeki_user_data`
-    ADD COLUMN `metal_count` int(11) DEFAULT 0,
+    ADD COLUMN `medal_count` int(11) DEFAULT 0,
     ADD COLUMN `character_voice_no` int(11) DEFAULT 0,
     ADD COLUMN `cm_event_watched_date` text DEFAULT '0000-00-00 00:00:00.0';
 

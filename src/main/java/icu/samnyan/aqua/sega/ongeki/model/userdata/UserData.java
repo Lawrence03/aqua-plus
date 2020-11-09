@@ -54,7 +54,7 @@ public class UserData implements Serializable {
 
     private int totalJewelCount;
 
-    private int metalCount;
+    private int medalCount;
 
     private int playerRating;
 

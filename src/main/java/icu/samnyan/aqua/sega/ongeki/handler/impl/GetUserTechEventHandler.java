@@ -1,7 +1,9 @@
 package icu.samnyan.aqua.sega.ongeki.handler.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import icu.samnyan.aqua.sega.ongeki.dao.userdata.UserTechEventRepository;
 import icu.samnyan.aqua.sega.ongeki.handler.BaseHandler;
+import icu.samnyan.aqua.sega.ongeki.model.userdata.UserTechEvent;
 import icu.samnyan.aqua.sega.util.jackson.BasicMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The game doesn't send this to save
  * @author samnyan (privateamusement@protonmail.com)
  */
 @Component("OngekiGetUserTechEventHandler")
@@ -23,9 +24,12 @@ public class GetUserTechEventHandler implements BaseHandler {
 
     private final BasicMapper mapper;
 
+    private final UserTechEventRepository userTechEventRepository;
+
     @Autowired
-    public GetUserTechEventHandler(BasicMapper mapper) {
+    public GetUserTechEventHandler(BasicMapper mapper, UserTechEventRepository userTechEventRepository) {
         this.mapper = mapper;
+        this.userTechEventRepository = userTechEventRepository;
     }
 
 
@@ -33,10 +37,12 @@ public class GetUserTechEventHandler implements BaseHandler {
     public String handle(Map<String, Object> request) throws JsonProcessingException {
         Integer userId = (Integer) request.get("userId");
 
+        List<UserTechEvent> userTechEventList = userTechEventRepository.findByUser_Card_ExtId(userId);
+
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("userId", userId);
-        resultMap.put("length", 0);
-        resultMap.put("userTechEventList", new List[]{});
+        resultMap.put("length", userTechEventList.size());
+        resultMap.put("userTechEventList", userTechEventList);
 
         String json = mapper.write(resultMap);
 
