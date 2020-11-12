@@ -5,6 +5,7 @@ create table ongeki_user_boss
 	music_id int not null,
 	damage int not null,
 	is_clear bit not null,
+	event_id int not null,
 	user_id bigint null,
     constraint UKkXe5S9552jrSJP65
         unique (user_id, music_id),

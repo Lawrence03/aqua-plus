@@ -35,6 +35,8 @@ public class UserBoss implements Serializable {
 
     private int damage;
 
+    private int eventId;
+
     @JsonProperty("isClear")
     private boolean isClear;
 
