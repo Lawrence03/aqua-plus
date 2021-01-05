@@ -142,6 +142,8 @@ public class UpsertUserAllHandler implements BaseHandler {
         List<UserActivity> userActivityList = upsertUserAll.getUserActivityList();
         List<UserActivity> newUserActivityList = new ArrayList<>();
 
+        userActivityRepository.deleteByUser(userData);
+        userActivityRepository.flush();
         for (UserActivity newUserActivity : userActivityList) {
             int kind = newUserActivity.getKind();
             int id = newUserActivity.getActivityId();

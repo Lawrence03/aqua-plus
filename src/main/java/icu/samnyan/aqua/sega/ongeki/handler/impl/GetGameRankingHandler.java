@@ -62,10 +62,10 @@ public class GetGameRankingHandler implements BaseHandler {
                         list.add(new GameRankingItem(Integer.parseInt(id), 0, ""));
                     } catch (NumberFormatException ignored) {
                     }
-                    // in ADT_Ranking.cs, the game read this array and expected it has 10 value here.
-                    while (list.size() < 10) {
-                        list.add(new GameRankingItem(0, 0, ""));
-                    }
+                }
+                 // in ADT_Ranking.cs, the game read this array and expected it has 10 value here.
+                 while (list.size() < 10) {
+                    list.add(new GameRankingItem(0, 0, ""));
                 }
 
                 resultMap.put("gameRankingList", list);
