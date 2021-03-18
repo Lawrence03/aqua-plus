@@ -53,7 +53,12 @@ public class AllNetController {
         // TODO: Verify KeyChip id
 
         String gameId = reqMap.getOrDefault("game_id", "");
-        PowerOnResponse resp = new PowerOnResponse(
+        String keychipId = reqMap.getOrDefault("serial", "A69E01A8888");
+
+        PowerOnResponse resp;
+
+        if(keychipId.equals("A63E11A4514")){
+            resp = new PowerOnResponse(
                 1,
                 switchUri(gameId),
                 switchHost(gameId),
@@ -73,6 +78,29 @@ public class AllNetController {
                 "3",
                 reqMap.get("token")
         );
+        } else {
+            resp = new PowerOnResponse(
+                -3,
+                switchUri(gameId),
+                switchHost(gameId),
+                "123",
+                "",
+                "",
+                "1",
+                "W",
+                "X",
+                "Y",
+                "Z",
+                "JPN",
+                "456",
+                "+0900",
+                Instant.now().toString().substring(0, 19).concat("Z"),
+                "",
+                "3",
+                reqMap.get("token")
+        );
+        }
+
         logger.info("Response: " + new ObjectMapper().writeValueAsString(resp));
         return resp.toString().concat("\n");
     }
