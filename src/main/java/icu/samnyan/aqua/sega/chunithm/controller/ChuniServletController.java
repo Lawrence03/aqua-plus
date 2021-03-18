@@ -3,6 +3,7 @@ package icu.samnyan.aqua.sega.chunithm.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import icu.samnyan.aqua.sega.chunithm.handler.impl.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,9 +52,14 @@ public class ChuniServletController {
     private final UpsertClientTestmodeHandler upsertClientTestmodeHandler;
     private final UpsertUserAllHandler upsertUserAllHandler;
     private final UpsertUserChargelogHandler upsertUserChargelogHandler;
+    private final GetTeamCourseRuleHandler getTeamCourseRuleHandler;
+    private final GetTeamCourseSettingHandler getTeamCourseSettingHandler;
+    private final GetUserLoginBonusHandler getUserLoginBonusHandler;
+    private final GetUserRivalMusicHandler getUserRivalMusicHandler;
+    private final GetUserRivalDataHandler getUserRivalDataHandler;
 
     @Autowired
-    public ChuniServletController(GameLoginHandler gameLoginHandler, GameLogoutHandler gameLogoutHandler, GetGameChargeHandler getGameChargeHandler, GetGameEventHandler getGameEventHandler, GetGameIdlistHandler getGameIdlistHandler, GetGameMessageHandler getGameMessageHandler, GetGameRankingHandler getGameRankingHandler, GetGameSaleHandler getGameSaleHandler, GetGameSettingHandler getGameSettingHandler, GetUserActivityHandler getUserActivityHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserChargeHandler getUserChargeHandler, GetUserCourseHandler getUserCourseHandler, GetUserDataExHandler getUserDataExHandler, GetUserDataHandler getUserDataHandler, GetUserDuelHandler getUserDuelHandler, GetUserFavoriteItemHandler getUserFavoriteItemHandler, GetUserItemHandler getUserItemHandler, GetUserMapHandler getUserMapHandler, GetUserMusicHandler getUserMusicHandler, GetUserOptionExHandler getUserOptionExHandler, GetUserOptionHandler getUserOptionHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRecentRatingHandler getUserRecentRatingHandler, GetUserRegionHandler getUserRegionHandler, GetUserTeamHandler getUserTeamHandler, UpsertClientBookkeepingHandler upsertClientBookkeepingHandler, UpsertClientDevelopHandler upsertClientDevelopHandler, UpsertClientErrorHandler upsertClientErrorHandler, UpsertClientSettingHandler upsertClientSettingHandler, UpsertClientTestmodeHandler upsertClientTestmodeHandler, UpsertUserAllHandler upsertUserAllHandler, UpsertUserChargelogHandler upsertUserChargelogHandler) {
+    public ChuniServletController(GameLoginHandler gameLoginHandler, GameLogoutHandler gameLogoutHandler, GetGameChargeHandler getGameChargeHandler, GetGameEventHandler getGameEventHandler, GetGameIdlistHandler getGameIdlistHandler, GetGameMessageHandler getGameMessageHandler, GetGameRankingHandler getGameRankingHandler, GetGameSaleHandler getGameSaleHandler, GetGameSettingHandler getGameSettingHandler, GetTeamCourseRuleHandler getTeamCourseRuleHandler, GetTeamCourseSettingHandler getTeamCourseSettingHandler, GetUserActivityHandler getUserActivityHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserChargeHandler getUserChargeHandler, GetUserCourseHandler getUserCourseHandler, GetUserDataExHandler getUserDataExHandler, GetUserDataHandler getUserDataHandler, GetUserDuelHandler getUserDuelHandler, GetUserFavoriteItemHandler getUserFavoriteItemHandler, GetUserItemHandler getUserItemHandler, GetUserMapHandler getUserMapHandler, GetUserMusicHandler getUserMusicHandler, GetUserOptionExHandler getUserOptionExHandler, GetUserOptionHandler getUserOptionHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRecentRatingHandler getUserRecentRatingHandler, GetUserRegionHandler getUserRegionHandler, GetUserTeamHandler getUserTeamHandler, UpsertClientBookkeepingHandler upsertClientBookkeepingHandler, UpsertClientDevelopHandler upsertClientDevelopHandler, UpsertClientErrorHandler upsertClientErrorHandler, UpsertClientSettingHandler upsertClientSettingHandler, UpsertClientTestmodeHandler upsertClientTestmodeHandler, UpsertUserAllHandler upsertUserAllHandler, UpsertUserChargelogHandler upsertUserChargelogHandler, GetUserLoginBonusHandler getUserLoginBonusHandler, GetUserRivalMusicHandler getUserRivalMusicHandler, GetUserRivalDataHandler getUserRivalDataHandler) {
         this.gameLoginHandler = gameLoginHandler;
         this.gameLogoutHandler = gameLogoutHandler;
         this.getGameChargeHandler = getGameChargeHandler;
@@ -87,6 +93,11 @@ public class ChuniServletController {
         this.upsertClientTestmodeHandler = upsertClientTestmodeHandler;
         this.upsertUserAllHandler = upsertUserAllHandler;
         this.upsertUserChargelogHandler = upsertUserChargelogHandler;
+        this.getTeamCourseRuleHandler = getTeamCourseRuleHandler;
+        this.getTeamCourseSettingHandler = getTeamCourseSettingHandler;
+        this.getUserLoginBonusHandler = getUserLoginBonusHandler;
+        this.getUserRivalDataHandler = getUserRivalDataHandler;
+        this.getUserRivalMusicHandler = getUserRivalMusicHandler;
     }
 
     @PostMapping("GameLoginApi")
@@ -268,4 +279,28 @@ public class ChuniServletController {
         return upsertUserChargelogHandler.handle(request);
     }
 
+    @PostMapping("GetTeamCourseRuleApi")
+    String getTeamCourseRule(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getTeamCourseRuleHandler.handle(request);
+    }
+
+    @PostMapping("GetTeamCourseSettingApi")
+    String getTeamCourseSetting(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getTeamCourseSettingHandler.handle(request);
+    }
+
+    @PostMapping("GetUserLoginBonusApi")
+    String getUserLoginBonus(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getUserLoginBonusHandler.handle(request);
+    }
+
+    @PostMapping("GetUserRivalDataApi")
+    String getUserRivalData(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getUserRivalDataHandler.handle(request);
+    }
+
+    @PostMapping("GetUserRivalMusicHandler")
+    String getUserRivalMusic(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getUserRivalMusicHandler.handle(request);
+    }
 }

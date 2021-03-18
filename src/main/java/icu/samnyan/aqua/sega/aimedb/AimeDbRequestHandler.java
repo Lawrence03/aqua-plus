@@ -2,6 +2,7 @@ package icu.samnyan.aqua.sega.aimedb;
 
 import icu.samnyan.aqua.sega.aimedb.handler.impl.*;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
@@ -66,7 +67,10 @@ public class AimeDbRequestHandler extends ChannelInboundHandlerAdapter {
                     campaignHandler.handle(ctx, data);
                     break;
                 case 0x000d:
-                    registerHandler.handle(ctx, data);
+                    ByteBuf respSrc = Unpooled.copiedBuffer(new byte[0x0050]);
+                    respSrc.setShortLE(0x0004, 0x000e);
+                    respSrc.setShortLE(0x0008, 1);
+                    ctx.writeAndFlush(respSrc);
                     break;
                 case 0x000f:
                     lookup2Handler.handle(ctx, data);
