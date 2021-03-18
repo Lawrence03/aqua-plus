@@ -32,4 +32,9 @@ public class OngekiDataImport {
     private List<UserPlaylog> userPlaylogList;
     private List<UserStory> userStoryList;
     private List<UserTrainingRoom> userTrainingRoomList;
+    private List<UserBoss> userBossList;
+    private List<UserScenario> userScenarioList;
+    private List<UserTechCount> userTechCountList;
+    private List<UserEventMusic> userEventMusicList;
+    private List<UserTechEvent> userTechEventList;
 }

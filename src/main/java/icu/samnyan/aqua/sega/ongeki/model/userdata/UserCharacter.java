@@ -33,6 +33,8 @@ public class UserCharacter implements Serializable {
 
     private int characterId;
 
+    private int costumeId;
+
     private int playCount;
 
     private int intimateLevel;

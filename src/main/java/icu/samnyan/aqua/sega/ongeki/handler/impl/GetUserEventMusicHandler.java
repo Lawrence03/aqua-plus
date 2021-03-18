@@ -1,7 +1,9 @@
 package icu.samnyan.aqua.sega.ongeki.handler.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import icu.samnyan.aqua.sega.ongeki.dao.userdata.UserEventMusicRepository;
 import icu.samnyan.aqua.sega.ongeki.handler.BaseHandler;
+import icu.samnyan.aqua.sega.ongeki.model.userdata.UserEventMusic;
 import icu.samnyan.aqua.sega.util.jackson.BasicMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The game doesn't send this to save
  * @author samnyan (privateamusement@protonmail.com)
  */
 @Component("OngekiGetUserEventMusicHandler")
@@ -23,9 +24,12 @@ public class GetUserEventMusicHandler implements BaseHandler {
 
     private final BasicMapper mapper;
 
+    private final UserEventMusicRepository userEventMusicRepository;
+
     @Autowired
-    public GetUserEventMusicHandler(BasicMapper mapper) {
+    public GetUserEventMusicHandler(BasicMapper mapper, UserEventMusicRepository userEventMusicRepository) {
         this.mapper = mapper;
+        this.userEventMusicRepository = userEventMusicRepository;
     }
 
 
@@ -33,10 +37,12 @@ public class GetUserEventMusicHandler implements BaseHandler {
     public String handle(Map<String, Object> request) throws JsonProcessingException {
         Integer userId = (Integer) request.get("userId");
 
+        List<UserEventMusic> userEventMusicList = userEventMusicRepository.findByUser_Card_ExtId(userId);
+
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("userId", userId);
-        resultMap.put("length", 0);
-        resultMap.put("userEventMusicList", new List[]{});
+        resultMap.put("length", userEventMusicList.size());
+        resultMap.put("userEventMusicList", userEventMusicList);
 
         String json = mapper.write(resultMap);
 

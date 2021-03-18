@@ -53,10 +53,12 @@ public class UpsertUserAllHandler implements BaseHandler {
     private final UserBossRepository userBossRepository;
     private final UserScenarioRepository userScenarioRepository;
     private final UserTechCountRepository userTechCountRepository;
+    private final UserEventMusicRepository userEventMusicRepository;
+    private final UserTechEventRepository userTechEventRepository;
 
     @Autowired
     public UpsertUserAllHandler(BasicMapper mapper,
-                                CardService cardService, UserDataRepository userDataRepository, UserOptionRepository userOptionRepository, UserPlaylogRepository userPlaylogRepository, UserActivityRepository userActivityRepository, UserMusicDetailRepository userMusicDetailRepository, UserCharacterRepository userCharacterRepository, UserCardRepository userCardRepository, UserDeckRepository userDeckRepository, UserStoryRepository userStoryRepository, UserChapterRepository userChapterRepository, UserItemRepository userItemRepository, UserMusicItemRepository userMusicItemRepository, UserLoginBonusRepository userLoginBonusRepository, UserEventPointRepository userEventPointRepository, UserMissionPointRepository userMissionPointRepository, UserTrainingRoomRepository userTrainingRoomRepository, UserGeneralDataRepository userGeneralDataRepository, UserBossRepository userBossRepository, UserScenarioRepository userScenarioRepository, UserTechCountRepository userTechCountRepository) {
+                                CardService cardService, UserDataRepository userDataRepository, UserOptionRepository userOptionRepository, UserPlaylogRepository userPlaylogRepository, UserActivityRepository userActivityRepository, UserMusicDetailRepository userMusicDetailRepository, UserCharacterRepository userCharacterRepository, UserCardRepository userCardRepository, UserDeckRepository userDeckRepository, UserStoryRepository userStoryRepository, UserChapterRepository userChapterRepository, UserItemRepository userItemRepository, UserMusicItemRepository userMusicItemRepository, UserLoginBonusRepository userLoginBonusRepository, UserEventPointRepository userEventPointRepository, UserMissionPointRepository userMissionPointRepository, UserTrainingRoomRepository userTrainingRoomRepository, UserGeneralDataRepository userGeneralDataRepository, UserBossRepository userBossRepository, UserScenarioRepository userScenarioRepository, UserTechCountRepository userTechCountRepository, UserEventMusicRepository userEventMusicRepository, UserTechEventRepository userTechEventRepository) {
         this.mapper = mapper;
         this.cardService = cardService;
         this.userDataRepository = userDataRepository;
@@ -79,6 +81,8 @@ public class UpsertUserAllHandler implements BaseHandler {
         this.userBossRepository = userBossRepository;
         this.userScenarioRepository = userScenarioRepository;
         this.userTechCountRepository = userTechCountRepository;
+        this.userEventMusicRepository = userEventMusicRepository;
+        this.userTechEventRepository = userTechEventRepository;
     }
 
     @Override
@@ -138,6 +142,8 @@ public class UpsertUserAllHandler implements BaseHandler {
         List<UserActivity> userActivityList = upsertUserAll.getUserActivityList();
         List<UserActivity> newUserActivityList = new ArrayList<>();
 
+        userActivityRepository.deleteByUser(userData);
+        userActivityRepository.flush();
         for (UserActivity newUserActivity : userActivityList) {
             int kind = newUserActivity.getKind();
             int id = newUserActivity.getActivityId();
@@ -450,6 +456,44 @@ public class UpsertUserAllHandler implements BaseHandler {
             userScenarioRepository.saveAll(newUserScenarioList);
         }
 
+        // UserEventMusicList
+        List<UserEventMusic> userEventMusicList = upsertUserAll.getUserEventMusicList();
+        if (userEventMusicList != null) {
+            List<UserEventMusic> newUserEventMusicList = new ArrayList<>();
+            for (UserEventMusic newUserEventMusic : userEventMusicList) {
+                int eventId = newUserEventMusic.getEventId();
+                int musicId = newUserEventMusic.getMusicId();
+                int level = newUserEventMusic.getLevel();
+
+                Optional<UserEventMusic> userEventMusicOptional =
+                        userEventMusicRepository.findByUserAndEventIdAndMusicIdAndLevel(
+                                newUserData, eventId, musicId, level);
+                UserEventMusic userEventMusic = userEventMusicOptional.orElseGet(() -> new UserEventMusic(newUserData));
+
+                newUserEventMusic.setId(userEventMusic.getId());
+                newUserEventMusic.setUser(userEventMusic.getUser());
+                newUserEventMusicList.add(newUserEventMusic);
+            }
+            userEventMusicRepository.saveAll(newUserEventMusicList);
+        }
+
+        // UserTechEventList
+        List<UserTechEvent> userTechEventList = upsertUserAll.getUserTechEventList();
+        if (userTechEventList != null) {
+            List<UserTechEvent> newUserTechEventList = new ArrayList<>();
+            for (UserTechEvent newUserTehEvent : userTechEventList) {
+                int eventId = newUserTehEvent.getEventId();
+
+                Optional<UserTechEvent> userTechEventOptional =
+                        userTechEventRepository.findByUserAndEventId(newUserData, eventId);
+                UserTechEvent userTechEvent = userTechEventOptional.orElseGet(() -> new UserTechEvent(newUserData));
+
+                newUserTehEvent.setId(userTechEvent.getId());
+                newUserTehEvent.setUser(userTechEvent.getUser());
+                newUserTechEventList.add(newUserTehEvent);
+            }
+            userTechEventRepository.saveAll(newUserTechEventList);
+        }
 
         String json = mapper.write(new CodeResp(1, "upsertUserAll"));
         logger.info("Response: " + json);

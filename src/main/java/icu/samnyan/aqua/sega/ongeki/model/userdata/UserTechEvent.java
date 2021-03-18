@@ -1,6 +1,7 @@
 package icu.samnyan.aqua.sega.ongeki.model.userdata;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,12 @@ import java.io.Serializable;
 /**
  * @author samnyan (privateamusement@protonmail.com)
  */
-@Entity(name = "OngekiUserLoginBonus")
-@Table(name = "ongeki_user_login_bonus")
+@Entity(name = "OngekiUserTechEvent")
+@Table(name = "ongeki_user_tech_event")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLoginBonus implements Serializable {
+public class UserTechEvent implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,13 +31,21 @@ public class UserLoginBonus implements Serializable {
     @JoinColumn(name = "user_id")
     private UserData user;
 
-    private int bonusId;
+    private int eventId;
 
-    private int bonusCount;
+    private int totalTechScore;
 
-    private String lastUpdateDate;
+    private int totalPlatinumScore;
 
-    public UserLoginBonus(UserData userData) {
+    private String techRecordDate;
+
+    @JsonProperty("isRankingRewarded")
+    private boolean isRankingRewarded;
+
+    @JsonProperty("isTotalTechNewRecord")
+    private boolean isTotalTechNewRecord;
+
+    public UserTechEvent(UserData userData) {
         this.user = userData;
     }
 }

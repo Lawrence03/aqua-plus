@@ -4,6 +4,7 @@ import icu.samnyan.aqua.sega.ongeki.model.userdata.UserData;
 import icu.samnyan.aqua.sega.ongeki.model.userdata.UserScenario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,6 @@ public interface UserScenarioRepository extends JpaRepository<UserScenario, Long
 
     Optional<UserScenario> findByUserAndScenarioId(UserData user, int scenarioId);
 
+    @Transactional
+    void deleteByUser(UserData user);
 }
