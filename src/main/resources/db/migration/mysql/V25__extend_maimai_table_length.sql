@@ -1,0 +1,1 @@
+alter table mai2_user_general_data modify property_value text null;
