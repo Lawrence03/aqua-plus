@@ -8,13 +8,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
+/**
+ * @author samnyan (privateamusement@protonmail.com)
+ */
 @Component
-public class GetUserLoginBonusHandler  implements BaseHandler {
+public class GetUserLoginBonusHandler implements BaseHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GetUserLoginBonusHandler.class);
 
@@ -29,14 +31,13 @@ public class GetUserLoginBonusHandler  implements BaseHandler {
     public String handle(Map<String, Object> request) throws JsonProcessingException {
         String userId = (String) request.get("userId");
 
-
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("userId", userId);
         resultMap.put("length", 0);
-        resultMap.put("userLoginBonusList", List.of());
+        resultMap.put("userLoginBonusList", new ArrayList<>());
 
         String json = mapper.write(resultMap);
-        logger.debug("Response: " + json);
+        logger.info("Response: " + json);
         return json;
     }
 }

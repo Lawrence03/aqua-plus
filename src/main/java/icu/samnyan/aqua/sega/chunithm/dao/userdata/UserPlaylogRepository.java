@@ -13,11 +13,11 @@ import java.util.List;
  */
 @Repository
 public interface UserPlaylogRepository extends JpaRepository<UserPlaylog, Long> {
-    List<UserPlaylog> findByUser_Card_ExtIdAndLevelNot(int extId, int levelNot, Pageable page);
+    List<UserPlaylog> findByUser_Card_ExtIdAndLevelNot(long extId, int levelNot, Pageable page);
 
-    Page<UserPlaylog> findByUser_Card_ExtId(int extId, Pageable page);
+    Page<UserPlaylog> findByUser_Card_ExtId(long extId, Pageable page);
 
-    List<UserPlaylog> findByUser_Card_ExtIdAndMusicIdAndLevel(int extId, int musicId, int level);
+    List<UserPlaylog> findByUser_Card_ExtIdAndMusicIdAndLevel(long extId, int musicId, int level);
 
-    List<UserPlaylog> findByUser_Card_ExtId(int extId);
+    List<UserPlaylog> findByUser_Card_ExtId(long extId);
 }

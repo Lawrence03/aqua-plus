@@ -19,9 +19,9 @@ public interface UserItemRepository extends JpaRepository<UserItem, Long> {
 
     Optional<UserItem> findTopByUserAndItemIdAndItemKindOrderByIdDesc(UserData user, int itemId, int itemKind);
 
-    Page<UserItem> findAllByUser_Card_ExtIdAndItemKind(int extId, int itemKind, Pageable pageable);
+    Page<UserItem> findAllByUser_Card_ExtIdAndItemKind(long extId, int itemKind, Pageable pageable);
 
-    List<UserItem> findAllByUser_Card_ExtId(int extId);
+    List<UserItem> findAllByUser_Card_ExtId(long extId);
 
-    Page<UserItem> findByUser_Card_ExtId(int extId, Pageable pageable);
+    Page<UserItem> findByUser_Card_ExtId(long extId, Pageable pageable);
 }

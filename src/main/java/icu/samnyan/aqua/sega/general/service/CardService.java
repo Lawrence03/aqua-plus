@@ -28,15 +28,16 @@ public class CardService {
      * @return Optional of a Card
      */
     public Optional<Card> getCardByExtId(String extId) {
-        return cardRepository.findByExtId(Integer.parseInt(extId));
+        return cardRepository.findByExtId(Long.parseLong(extId));
     }
 
     /**
      * Find a card by External Id
+     *
      * @param extId External Id
      * @return Optional of a Card
      */
-    public Optional<Card> getCardByExtId(int extId) {
+    public Optional<Card> getCardByExtId(Long extId) {
         return cardRepository.findByExtId(extId);
     }
 
@@ -57,9 +58,26 @@ public class CardService {
     public Card registerByAccessCode(String accessCode) {
         Card card = new Card();
         card.setLuid(accessCode);
-        int extId = ThreadLocalRandom.current().nextInt(99999999);
+        long extId = ThreadLocalRandom.current().nextLong(99999999);
         while (cardRepository.findByExtId(extId).isPresent()) {
-            extId = ThreadLocalRandom.current().nextInt(99999999);
+            extId = ThreadLocalRandom.current().nextLong(99999999);
+        }
+        card.setExtId(extId);
+        card.setRegisterTime(LocalDateTime.now());
+        card.setAccessTime(LocalDateTime.now());
+        return cardRepository.save(card);
+    }
+
+    /**
+     * Register a new card with access code and custom uid
+     * @param accessCode String represent of a access code
+     * @return a new registered Card
+     */
+    public Card registerByAccessCode(String accessCode, Long extId) {
+        Card card = new Card();
+        card.setLuid(accessCode);
+        if (cardRepository.findByExtId(extId).isPresent()) {
+            throw new RuntimeException("Card extid exist");
         }
         card.setExtId(extId);
         card.setRegisterTime(LocalDateTime.now());

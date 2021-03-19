@@ -15,5 +15,5 @@ public interface UserTeamRepository extends JpaRepository<UserTeam, Long> {
 
     Optional<UserTeam> findByUser(UserData user);
 
-    Optional<UserTeam> findByUser_Card_ExtId(int extId);
+    Optional<UserTeam> findByUser_Card_ExtId(long extId);
 }

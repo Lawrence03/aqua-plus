@@ -31,7 +31,7 @@ public class GetUserTradeItemHandler implements BaseHandler {
 
     @Override
     public String handle(Map<String, Object> request) throws JsonProcessingException {
-        Integer userId = (Integer) request.get("userId");
+        Long userId = (Long) request.get("userId");
 
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("userId", userId);

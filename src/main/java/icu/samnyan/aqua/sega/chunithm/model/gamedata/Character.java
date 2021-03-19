@@ -29,7 +29,7 @@ public class Character implements Serializable {
 
     private String illustratorName;
 
-    private Integer firstSkillId;
+    private String firstSkillId;
 
     // Format: level:skillId,level:skillId
     // Keep 0 skillId

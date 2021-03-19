@@ -1,11 +1,12 @@
 package icu.samnyan.aqua.sega.ongeki.model.gamedata;
 
-import icu.samnyan.aqua.sega.ongeki.model.common.ItemType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**

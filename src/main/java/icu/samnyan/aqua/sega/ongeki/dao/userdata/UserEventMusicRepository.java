@@ -19,7 +19,7 @@ import java.util.Optional;
 @Repository("OngekiUserEventMusicRepository")
 public interface UserEventMusicRepository extends JpaRepository<UserEventMusic, Long> {
 
-    List<UserEventMusic> findByUser_Card_ExtId(int userId);
+    List<UserEventMusic> findByUser_Card_ExtId(long userId);
 
     Optional<UserEventMusic> findByUserAndEventIdAndMusicIdAndLevel(UserData user, int eventId, int musicId, int level);
 
