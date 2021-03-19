@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import icu.samnyan.aqua.sega.chunithm.handler.BaseHandler;
 import icu.samnyan.aqua.sega.chunithm.model.userdata.UserData;
 import icu.samnyan.aqua.sega.chunithm.service.UserDataService;
+import icu.samnyan.aqua.sega.general.service.ClientSettingService;
+import icu.samnyan.aqua.sega.util.VersionUtil;
 import icu.samnyan.aqua.sega.util.jackson.StringMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static icu.samnyan.aqua.sega.util.AquaConst.SERIAL_KEY;
+
 /**
  * @author samnyan (privateamusement@protonmail.com)
  */
@@ -25,24 +29,17 @@ public class GetUserDataHandler implements BaseHandler {
 
     private final StringMapper mapper;
 
-    private final UserDataService userDataService;
+    private final ClientSettingService clientSettingService;
 
-    private final boolean overwriteVersion;
-    private final String romVersion;
-    private final String dataVersion;
+    private final UserDataService userDataService;
 
     @Autowired
     public GetUserDataHandler(StringMapper mapper,
-                              UserDataService userDataService,
-                              @Value("${game.chunithm.overwrite-version}") boolean overwriteVersion,
-                              @Value("${game.chunithm.rom-version}") String romVersion,
-                              @Value("${game.chunithm.data-version}") String dataVersion
+                              ClientSettingService clientSettingService, UserDataService userDataService
     ) {
         this.mapper = mapper;
+        this.clientSettingService = clientSettingService;
         this.userDataService = userDataService;
-        this.overwriteVersion = overwriteVersion;
-        this.romVersion = romVersion;
-        this.dataVersion = dataVersion;
     }
 
     @Override
@@ -55,10 +52,13 @@ public class GetUserDataHandler implements BaseHandler {
             resultMap.put("userId", userId);
             UserData user = userDataOptional.get();
 
-            if (overwriteVersion) {
-                user.setLastRomVersion(romVersion);
-                user.setLastDataVersion(dataVersion);
+            var vo = clientSettingService.getSetting((String) request.get(SERIAL_KEY));
+            if (vo.isPresent()) {
+                var version = vo.get();
+                user.setLastRomVersion(VersionUtil.getTargetVersion(user.getLastRomVersion(), version.getRomVersion()));
+                user.setLastDataVersion(VersionUtil.getTargetVersion(user.getLastDataVersion(), version.getDataVersion()));
             }
+
             resultMap.put("userData", user);
             String json = mapper.write(resultMap);
             logger.info("Response: " + json);

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author samnyan (privateamusement@protonmail.com)
@@ -35,6 +37,24 @@ public class GetGameSettingHandler implements BaseHandler {
 
     @Override
     public String handle(Map<String, Object> request) throws JsonProcessingException {
+        String userAgent = (String) request.get("__userAgent");
+        try {
+            String keychip = userAgent.substring(17).trim();
+            List<String> allowedKeychips = new ArrayList<>();
+            //allowedKeychips.add("A69E01A1919");
+            boolean allow = false;
+            for (String allowedKeychip: allowedKeychips) {
+                if (!keychip.equals(allowedKeychip)) {
+                    allow = true;
+                    break;
+                }
+            }
+            if (!allow) {
+                logger.info("Blocked keychip: " + keychip);
+                return null;
+            }
+        } catch (Exception e) {}
+
 
         PropertyEntry start = propertyEntryRepository.findByPropertyKey("reboot_start_time")
                 .orElseGet(() -> new PropertyEntry("reboot_start_time", "2020-01-01 23:59:00.0"));

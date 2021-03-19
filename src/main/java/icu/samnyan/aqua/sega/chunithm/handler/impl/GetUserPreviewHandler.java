@@ -11,6 +11,8 @@ import icu.samnyan.aqua.sega.chunithm.service.UserCharacterService;
 import icu.samnyan.aqua.sega.chunithm.service.UserDataService;
 import icu.samnyan.aqua.sega.chunithm.service.UserDataExService;
 import icu.samnyan.aqua.sega.chunithm.service.UserGameOptionService;
+import icu.samnyan.aqua.sega.general.service.ClientSettingService;
+import icu.samnyan.aqua.sega.util.VersionUtil;
 import icu.samnyan.aqua.sega.util.jackson.StringMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Optional;
+
+import static icu.samnyan.aqua.sega.util.AquaConst.SERIAL_KEY;
 
 /**
  * The handler for loading basic profile information.
@@ -35,6 +39,8 @@ public class GetUserPreviewHandler implements BaseHandler {
 
     private final StringMapper mapper;
 
+    private final ClientSettingService clientSettingService;
+
     private final UserDataService userDataService;
     private final UserCharacterService userCharacterService;
     private final UserDataExService userDataExService;
@@ -46,7 +52,7 @@ public class GetUserPreviewHandler implements BaseHandler {
 
     @Autowired
     public GetUserPreviewHandler(StringMapper mapper,
-                                 UserDataService userDataService,
+                                 ClientSettingService clientSettingService, UserDataService userDataService,
                                  UserCharacterService userCharacterService,
                                  UserDataExService userDataExService,
                                  UserGameOptionService userGameOptionService,
@@ -55,6 +61,7 @@ public class GetUserPreviewHandler implements BaseHandler {
                                  @Value("${game.chunithm.data-version}") String dataVersion
     ) {
         this.mapper = mapper;
+        this.clientSettingService = clientSettingService;
         this.userDataService = userDataService;
         this.userCharacterService = userCharacterService;
         this.userDataExService = userDataExService;
@@ -89,13 +96,16 @@ public class GetUserPreviewHandler implements BaseHandler {
         resp.setPlayerRating(user.getPlayerRating());
         resp.setLastGameId(user.getLastGameId());
 
-        resp.setLastRomVersion(user.getLastRomVersion());
-        resp.setLastDataVersion(user.getLastDataVersion());
-
-        if (overwriteVersion) {
-            resp.setLastRomVersion(romVersion);
-            resp.setLastDataVersion(dataVersion);
+        var vo = clientSettingService.getSetting((String) request.get(SERIAL_KEY));
+        if (vo.isPresent()) {
+            var version = vo.get();
+            resp.setLastRomVersion(VersionUtil.getTargetVersion(user.getLastRomVersion(), version.getRomVersion()));
+            resp.setLastDataVersion(VersionUtil.getTargetVersion(user.getLastDataVersion(), version.getDataVersion()));
+        } else {
+            resp.setLastRomVersion(user.getLastRomVersion());
+            resp.setLastDataVersion(user.getLastDataVersion());
         }
+
         resp.setLastPlayDate(user.getLastPlayDate());
         resp.setTrophyId(user.getTrophyId());
 
