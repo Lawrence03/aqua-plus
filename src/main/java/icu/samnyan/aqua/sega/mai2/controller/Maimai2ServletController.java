@@ -16,13 +16,16 @@ import java.util.Map;
 @RequestMapping("Maimai2Servlet")
 public class Maimai2ServletController {
 
+    private final GetGameChargeHandler getGameChargeHandler;
     private final GetGameEventHandler getGameEventHandler;
     private final GetGameRankingHandler getGameRankingHandler;
     private final GetGameSettingHandler getGameSettingHandler;
     private final GetGameTournamentInfoHandler getGameTournamentInfoHandler;
     private final GetUserActivityHandler getUserActivityHandler;
     private final GetUserCardHandler getUserCardHandler;
+    private final GetUserChargeHandler getUserChargeHandler;
     private final GetUserCharacterHandler getUserCharacterHandler;
+    private final GetUserCourseHandler getUserCourseHandler;
     private final GetUserDataHandler getUserDataHandler;
     private final GetUserExtendHandler getUserExtendHandler;
     private final GetUserFavoriteHandler getUserFavoriteHandler;
@@ -43,14 +46,17 @@ public class Maimai2ServletController {
     private final UserLoginHandler userLoginHandler;
     private final UserLogoutHandler userLogoutHandler;
 
-    public Maimai2ServletController(GetGameEventHandler getGameEventHandler, GetGameRankingHandler getGameRankingHandler, GetGameSettingHandler getGameSettingHandler, GetGameTournamentInfoHandler getGameTournamentInfoHandler, GetUserActivityHandler getUserActivityHandler, GetUserCardHandler getUserCardHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserDataHandler getUserDataHandler, GetUserExtendHandler getUserExtendHandler, GetUserFavoriteHandler getUserFavoriteHandler, GetUserGhostHandler getUserGhostHandler, GetUserItemHandler getUserItemHandler, GetUserLoginBonusHandler getUserLoginBonusHandler, GetUserMapHandler getUserMapHandler, GetUserMusicHandler getUserMusicHandler, GetUserOptionHandler getUserOptionHandler, GetUserPortraitHandler getUserPortraitHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRatingHandler getUserRatingHandler, GetUserRegionHandler getUserRegionHandler, UploadUserPhotoHandler uploadUserPhotoHandler, UploadUserPlaylogHandler uploadUserPlaylogHandler, UploadUserPortraitHandler uploadUserPortraitHandler, UpsertUserAllHandler upsertUserAllHandler, UserLoginHandler userLoginHandler, UserLogoutHandler userLogoutHandler) {
+    public Maimai2ServletController(GetGameChargeHandler getGameChargeHandler, GetGameEventHandler getGameEventHandler, GetGameRankingHandler getGameRankingHandler, GetGameSettingHandler getGameSettingHandler, GetGameTournamentInfoHandler getGameTournamentInfoHandler, GetUserActivityHandler getUserActivityHandler, GetUserCardHandler getUserCardHandler, GetUserChargeHandler getUserChargeHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserCourseHandler getUserCourseHandler, GetUserDataHandler getUserDataHandler, GetUserExtendHandler getUserExtendHandler, GetUserFavoriteHandler getUserFavoriteHandler, GetUserGhostHandler getUserGhostHandler, GetUserItemHandler getUserItemHandler, GetUserLoginBonusHandler getUserLoginBonusHandler, GetUserMapHandler getUserMapHandler, GetUserMusicHandler getUserMusicHandler, GetUserOptionHandler getUserOptionHandler, GetUserPortraitHandler getUserPortraitHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRatingHandler getUserRatingHandler, GetUserRegionHandler getUserRegionHandler, UploadUserPhotoHandler uploadUserPhotoHandler, UploadUserPlaylogHandler uploadUserPlaylogHandler, UploadUserPortraitHandler uploadUserPortraitHandler, UpsertUserAllHandler upsertUserAllHandler, UserLoginHandler userLoginHandler, UserLogoutHandler userLogoutHandler) {
+        this.getGameChargeHandler = getGameChargeHandler;
         this.getGameEventHandler = getGameEventHandler;
         this.getGameRankingHandler = getGameRankingHandler;
         this.getGameSettingHandler = getGameSettingHandler;
         this.getGameTournamentInfoHandler = getGameTournamentInfoHandler;
         this.getUserActivityHandler = getUserActivityHandler;
         this.getUserCardHandler = getUserCardHandler;
+        this.getUserChargeHandler = getUserChargeHandler;
         this.getUserCharacterHandler = getUserCharacterHandler;
+        this.getUserCourseHandler = getUserCourseHandler;
         this.getUserDataHandler = getUserDataHandler;
         this.getUserExtendHandler = getUserExtendHandler;
         this.getUserFavoriteHandler = getUserFavoriteHandler;
@@ -93,6 +99,11 @@ public class Maimai2ServletController {
         return getGameTournamentInfoHandler.handle(request);
     }
 
+    @PostMapping(value = {"GetGameChargeApi"})
+    public String getGameChargeApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getGameChargeHandler.handle(request);
+    }
+
     @PostMapping(value = {"GetTransferFriendApi", "797d1c5b49820583bb37d12d7c76b973"})
     public String getTransferFriendApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
         return "{\"returnCode\":\"1\",\"apiName\":\"GetTransferFriendApi\"}";
@@ -108,9 +119,19 @@ public class Maimai2ServletController {
         return getUserCardHandler.handle(request);
     }
 
+    @PostMapping(value = {"GetUserChargeApi"})
+    public String getUserChargeApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getUserChargeHandler.handle(request);
+    }
+
     @PostMapping(value = {"GetUserCharacterApi", "4f9b2e36842720ef4704153e32e7c19e", "b15fc2082144ffd66501b4809af221ac", "51e5cbad5da6a1f5e126593b5e80caa7"})
     public String getUserCharacterApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
         return getUserCharacterHandler.handle(request);
+    }
+
+    @PostMapping(value = {"GetUserCourseApi"})
+    public String getUserCourseApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getUserCourseHandler.handle(request);
     }
 
     @PostMapping(value = {"GetUserDataApi", "2ac627ef98785d7bc03273994f28f3a3", "7cc96f4745e59b9c9824100209a41e34", "4086e3fc64e9fe2c79da23b8ff625f57"})
@@ -216,6 +237,11 @@ public class Maimai2ServletController {
     @PostMapping(value = {"UpsertClientUploadApi", "0ce7f5c4f89ddea839624f947dc1d917", "a46ef6c8520273215120eecad354a262", "b3c672bc0e560d45a9c0f3d53d3a2065"})
     public String upsertClientUpload(@ModelAttribute Map<String, Object> request) {
         return "{\"returnCode\":\"1\",\"apiName\":\"UpsertClientUploadApi\"}";
+    }
+
+    @PostMapping(value = {"UpsertUserChargelogApi", "0ce7f5c4f89ddea839624f947dc1d917", "a46ef6c8520273215120eecad354a262", "b3c672bc0e560d45a9c0f3d53d3a2065"})
+    public String upsertUserChargelog(@ModelAttribute Map<String, Object> request) {
+        return "{\"returnCode\":\"1\",\"apiName\":\"UpsertUserChargelogApi\"}";
     }
 
     @PostMapping(value = {"UpsertUserAllApi", "e2222c4e05c32c2fc69286d3867d42e9", "1c508614d3be7ee2ddfe0732b4c4be59", "10c41f5e09382cb54551d7deefb7c293"})

@@ -27,5 +27,7 @@ public class UserAll implements Serializable {
     private List<UserMusicDetail> userMusicDetailList;
     private List<UserFavorite> userFavoriteList;
     private List<UserActivityList> userActivityList;
+    private List<UserCharge> userChargeList;
+    private List<UserCourse> userCourseList;
     private String isNewCharacterList;
 }

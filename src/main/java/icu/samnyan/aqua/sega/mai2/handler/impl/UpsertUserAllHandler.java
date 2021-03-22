@@ -33,6 +33,8 @@ public class UpsertUserAllHandler implements BaseHandler {
 
     private final UserActivityRepository userActivityRepository;
     private final UserCharacterRepository userCharacterRepository;
+    private final UserChargeRepository userChargeRepository;
+    private final UserCourseRepository userCourseRepository;
     private final UserDataRepository userDataRepository;
     private final UserExtendRepository userExtendRepository;
     private final UserFavoriteRepository userFavoriteRepository;
@@ -45,11 +47,13 @@ public class UpsertUserAllHandler implements BaseHandler {
     private final UserOptionRepository userOptionRepository;
     private final UserUdemaeRepository userUdemaeRepository;
 
-    public UpsertUserAllHandler(BasicMapper mapper, CardService cardService, UserActivityRepository userActivityRepository, UserCharacterRepository userCharacterRepository, UserDataRepository userDataRepository, UserExtendRepository userExtendRepository, UserFavoriteRepository userFavoriteRepository, UserGeneralDataRepository userGeneralDataRepository, UserGhostRepository userGhostRepository, UserItemRepository userItemRepository, UserLoginBonusRepository userLoginBonusRepository, UserMapRepository userMapRepository, UserMusicDetailRepository userMusicDetailRepository, UserOptionRepository userOptionRepository, UserUdemaeRepository userUdemaeRepository) {
+    public UpsertUserAllHandler(BasicMapper mapper, CardService cardService, UserActivityRepository userActivityRepository, UserCharacterRepository userCharacterRepository, UserChargeRepository userChargeRepository, UserCourseRepository userCourseRepository, UserDataRepository userDataRepository, UserExtendRepository userExtendRepository, UserFavoriteRepository userFavoriteRepository, UserGeneralDataRepository userGeneralDataRepository, UserGhostRepository userGhostRepository, UserItemRepository userItemRepository, UserLoginBonusRepository userLoginBonusRepository, UserMapRepository userMapRepository, UserMusicDetailRepository userMusicDetailRepository, UserOptionRepository userOptionRepository, UserUdemaeRepository userUdemaeRepository) {
         this.mapper = mapper;
         this.cardService = cardService;
         this.userActivityRepository = userActivityRepository;
         this.userCharacterRepository = userCharacterRepository;
+        this.userChargeRepository = userChargeRepository;
+        this.userCourseRepository = userCourseRepository;
         this.userDataRepository = userDataRepository;
         this.userExtendRepository = userExtendRepository;
         this.userFavoriteRepository = userFavoriteRepository;
@@ -272,6 +276,42 @@ public class UpsertUserAllHandler implements BaseHandler {
         }
         newUserActivityList.sort((a, b) -> Long.compare(b.getSortNumber(), a.getSortNumber()));
         userActivityRepository.saveAll(newUserActivityList);
+
+        // UserChargeList
+        List<UserCharge> userChargeList = userAll.getUserChargeList();
+        if(userChargeList != null) {
+            List<UserCharge> newUserChargeList = new ArrayList<>();
+
+            for(UserCharge newUserCharge: userChargeList) {
+                int characterId = newUserCharge.getChargeId();
+
+                Optional<UserCharge> characterOptional = userChargeRepository.findByUserAndChargeId(newUserData, characterId);
+                UserCharge userCharge = characterOptional.orElseGet(() -> new UserCharge(newUserData));
+
+                newUserCharge.setId(userCharge.getId());
+                newUserCharge.setUser(newUserData);
+                newUserChargeList.add(newUserCharge);
+            }
+            userChargeRepository.saveAll(newUserChargeList);
+        }
+
+        // UserCourseList
+        List<UserCourse> userCourseList = userAll.getUserCourseList();
+        if(userCourseList != null) {
+            List<UserCourse> newUserCourseList = new ArrayList<>();
+
+            for(UserCourse newUserCourse: userCourseList) {
+                int characterId = newUserCourse.getCourseId();
+
+                Optional<UserCourse> characterOptional = userCourseRepository.findByUserAndCourseId(newUserData, characterId);
+                UserCourse userCourse = characterOptional.orElseGet(() -> new UserCourse(newUserData));
+
+                newUserCourse.setId(userCourse.getId());
+                newUserCourse.setUser(newUserData);
+                newUserCourseList.add(newUserCourse);
+            }
+            userCourseRepository.saveAll(newUserCourseList);
+        }
 
         return json;
     }

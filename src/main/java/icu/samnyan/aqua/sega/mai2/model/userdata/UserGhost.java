@@ -39,6 +39,12 @@ public class UserGhost implements Serializable {
 
     private int udemaeRate;
 
+    private int courseRank;
+
+    private int classRank;
+
+    private int classValue;
+
     private String playDatetime;
 
     private int shopId;

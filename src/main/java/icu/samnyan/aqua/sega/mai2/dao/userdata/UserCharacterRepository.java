@@ -1,6 +1,5 @@
 package icu.samnyan.aqua.sega.mai2.dao.userdata;
 
-import icu.samnyan.aqua.sega.mai2.model.gamedata.GameEvent;
 import icu.samnyan.aqua.sega.mai2.model.userdata.UserCharacter;
 import icu.samnyan.aqua.sega.mai2.model.userdata.UserData;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -65,6 +65,10 @@ public class UserData implements Serializable {
 
     private int gradeRank;
 
+    private int classRank;
+
+    private int courseRank;
+
     // Int array
     @Convert(converter = IntArrayToString.class)
     private List<Integer> charaSlot;
@@ -89,6 +93,10 @@ public class UserData implements Serializable {
 
     private String lastPlayDate;
 
+    private int lastPlayCredit;
+
+    private int lastPlayMode;
+
     private int lastPlaceId;
 
     private String lastPlaceName;
@@ -103,6 +111,14 @@ public class UserData implements Serializable {
 
     private String lastCountryCode;
 
+    private int lastSelectEMoney;
+
+    private int lastSelectTicket;
+
+    private int lastSelectCourse;
+
+    private int lastCountCourse;
+
     private String firstGameId;
 
     private String firstRomVersion;
@@ -114,6 +130,8 @@ public class UserData implements Serializable {
     private String compatibleCmVersion;
 
     private String dailyBonusDate;
+
+    private String dailyCourseBonusDate;
 
     private int playVsCount;
 

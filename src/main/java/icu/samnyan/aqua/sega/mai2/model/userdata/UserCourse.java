@@ -1,6 +1,7 @@
 package icu.samnyan.aqua.sega.mai2.model.userdata;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,12 @@ import java.io.Serializable;
 /**
  * @author samnyan (privateamusement@protonmail.com)
  */
-@Entity(name = "Mai2UserUdemae")
-@Table(name = "mai2_user_udemae")
+@Entity(name = "Mai2UserCourse")
+@Table(name = "mai2_user_course")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUdemae implements Serializable {
+public class UserCourse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,37 +31,31 @@ public class UserUdemae implements Serializable {
     @JoinColumn(name = "user_id")
     private UserData user;
 
-    private int rate;
+		private int courseId;
 
-    private int classValue;
+    @JsonProperty("isLastClear")
+		private boolean isLastClear;
 
-    private int maxClassValue;
+		private int totalRestlife;
 
-    private int totalWinNum;
+		private int totalAchievement;
 
-    private int totalLoseNum;
+		private int totalDeluxscore;
 
-    private int maxWinNum;
+		private int playCount;
 
-    private int maxLoseNum;
+		private String clearDate;
 
-    private int winNum;
+		private String lastPlayDate;
 
-    private int loseNum;
+		private int bestAchievement;
 
-    private int npcTotalWinNum;
+		private String bestAchievementDate;
 
-    private int npcTotalLoseNum;
+		private int bestDeluxscore;
 
-    private int npcMaxWinNum;
-
-    private int npcMaxLoseNum;
-
-    private int npcWinNum;
-
-    private int npcLoseNum;
-
-    public UserUdemae(UserData user) {
+		private String bestDeluxscoreDate;
+    public UserCourse(UserData user) {
         this.user = user;
     }
 }
