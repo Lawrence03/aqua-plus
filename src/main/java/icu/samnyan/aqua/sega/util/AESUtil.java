@@ -15,8 +15,8 @@ import java.util.Map;
  * @author samnyan (privateamusement@protonmail.com)
  */
 public class AESUtil {
-    private static Map<Double, SecretKeySpec> keys = Map.of(1.00,  new SecretKeySpec("Kk3Bj+GUuM4SohIBwPE826vKBGGhWrTW".getBytes(), "AES"), 1.10, new SecretKeySpec("RP77N6nQkRPcrh9HdT6gCrTWKbWLnLbH".getBytes(), "AES"), 1.14, new SecretKeySpec("CE2uAPm2SN3W9ZXWVj3ymH6Vt2YQxJ7Z".getBytes(), "AES"));
-    private static Map<Double, String> ivs = Map.of(1.00, "C8scXXB6V8yo99C9", 1.10, "BB5MhMnnd6Nsh2ua", 1.14, "r3LPGCH69AH5WSfT");
+    private static Map<Double, SecretKeySpec> keys = Map.of(1.00,  new SecretKeySpec("Kk3Bj+GUuM4SohIBwPE826vKBGGhWrTW".getBytes(), "AES"), 1.10, new SecretKeySpec("RP77N6nQkRPcrh9HdT6gCrTWKbWLnLbH".getBytes(), "AES"), 1.14, new SecretKeySpec("CE2uAPm2SN3W9ZXWVj3ymH6Vt2YQxJ7Z".getBytes(), "AES"), 1.17, new SecretKeySpec("wxjWYzikknQkTNPhsYTCEnNWA64jBzFS".getBytes(), "AES"));
+    private static Map<Double, String> ivs = Map.of(1.00, "C8scXXB6V8yo99C9", 1.10, "BB5MhMnnd6Nsh2ua", 1.14, "r3LPGCH69AH5WSfT", 1.17, "XbuPfC8pSaSucAC3");
     private static String arg = "AES/CBC/PKCS5Padding";
 
     private static Map<Integer, SecretKeySpec> keys_ongeki = Map.of(115,  new SecretKeySpec("M:53X83\\\\:cdlfYqS0c5zmn>N?\\J70<7".getBytes(), "AES"), 120, new SecretKeySpec("O8XWdN5AJl;>O0;227>LP2<^iUxqpkMs".getBytes(), "AES"));
