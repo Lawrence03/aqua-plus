@@ -43,7 +43,7 @@ public class GetUserPreviewHandler implements BaseHandler {
 
     @Override
     public String handle(Map<String, Object> request) throws JsonProcessingException {
-        Long userId = (Long) request.get("userId");
+        Long userId = ( (Number) request.get("userId") ).longValue();
 
         Optional<UserData> userData = userDataRepository.findByCard_ExtId(userId);
 
@@ -81,6 +81,8 @@ public class GetUserPreviewHandler implements BaseHandler {
             resp.setDispRating(1);
             resp.setDispBP(1);
             resp.setHeadphone(0);
+            resp.setBanStatus(user.getBanStatus());
+            resp.setWarningConfirmed(user.isWarningConfirmed());
             userOptionRepository.findByUser(user).ifPresent(x -> {
                 resp.setDispPlayerLv(x.getDispPlayerLv());
                 resp.setDispRating(x.getDispRating());

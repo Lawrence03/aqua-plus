@@ -146,4 +146,7 @@ public class UserData implements Serializable {
 
     private int lastPlayMusicLevel;
 
+    private boolean isWarningConfirmed;
+
+    private int banStatus;
 }

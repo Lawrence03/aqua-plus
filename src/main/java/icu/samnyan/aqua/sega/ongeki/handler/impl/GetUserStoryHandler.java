@@ -35,7 +35,7 @@ public class GetUserStoryHandler implements BaseHandler {
 
     @Override
     public String handle(Map<String, Object> request) throws JsonProcessingException {
-        Long userId = (Long) request.get("userId");
+        Long userId = ( (Number) request.get("userId") ).longValue();
 
         List<UserStory> userStoryList = userStoryRepository.findByUser_Card_ExtId(userId);
 

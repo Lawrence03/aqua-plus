@@ -31,7 +31,7 @@ public class GetUserKopHandler implements BaseHandler {
 
     @Override
     public String handle(Map<String, Object> request) throws JsonProcessingException {
-        Long userId = (Long) request.get("userId");
+        Long userId = ( (Number) request.get("userId") ).longValue();
 
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("userId", userId);

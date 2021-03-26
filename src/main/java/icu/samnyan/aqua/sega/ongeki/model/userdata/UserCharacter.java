@@ -45,6 +45,8 @@ public class UserCharacter implements Serializable {
 
     private String intimateCountDate;
 
+    private int attachmentId;
+
     @JsonProperty("isNew")
     private boolean isNew;
 

@@ -33,5 +33,6 @@ public class GetUserPreviewResp {
     private int dispRating = 0;
     private int dispBP = 0;
     private int headphone = 0;
-
+    private int banStatus = 0;
+    private boolean isWarningConfirmed = false;
 }

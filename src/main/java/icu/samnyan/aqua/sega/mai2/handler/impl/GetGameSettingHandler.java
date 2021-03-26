@@ -1,6 +1,7 @@
 package icu.samnyan.aqua.sega.mai2.handler.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import icu.samnyan.aqua.sega.general.dao.AllowKeychipRepository;
 import icu.samnyan.aqua.sega.general.dao.PropertyEntryRepository;
 import icu.samnyan.aqua.sega.general.model.PropertyEntry;
 import icu.samnyan.aqua.sega.mai2.handler.BaseHandler;
@@ -26,6 +27,7 @@ public class GetGameSettingHandler implements BaseHandler {
     private final BasicMapper mapper;
 
     private final PropertyEntryRepository propertyEntryRepository;
+    private final AllowKeychipRepository allowKeychipRepository;
 
     private final String HOST;
     private final String PORT;
@@ -33,10 +35,12 @@ public class GetGameSettingHandler implements BaseHandler {
     @Autowired
     public GetGameSettingHandler(BasicMapper mapper,
                                  PropertyEntryRepository propertyEntryRepository,
+                                 AllowKeychipRepository allowKeychipRepository,
                                  @Value("${allnet.server.host}") String HOST,
                                  @Value("${allnet.server.port}") String PORT) {
         this.mapper = mapper;
         this.propertyEntryRepository = propertyEntryRepository;
+        this.allowKeychipRepository = allowKeychipRepository;
         this.HOST = HOST;
         this.PORT = PORT;
     }
@@ -44,11 +48,19 @@ public class GetGameSettingHandler implements BaseHandler {
 
     @Override
     public String handle(Map<String, Object> request) throws JsonProcessingException {
+        String keychip = (String) request.get("clientId");
+        boolean allow = allowKeychipRepository.existsByKeychipId(keychip);
+        try {
+            if (!allow) {
+                logger.info("Blocked keychip: " + keychip);
+                return null;
+            }
+        } catch (Exception e) {}
 
         PropertyEntry start = propertyEntryRepository.findByPropertyKey("reboot_start_time")
-                .orElseGet(() -> new PropertyEntry("reboot_start_time", "2020-01-01 02:59:00.0"));
+                .orElseGet(() -> new PropertyEntry("reboot_start_time", "2020-01-01 06:30:00.0"));
         PropertyEntry end = propertyEntryRepository.findByPropertyKey("reboot_end_time")
-                .orElseGet(() -> new PropertyEntry("reboot_end_time", "2020-01-01 03:59:00.0"));
+                .orElseGet(() -> new PropertyEntry("reboot_end_time", "2020-01-01 07:00:00.0"));
 
         GameSetting gameSetting = new GameSetting(
                 false,

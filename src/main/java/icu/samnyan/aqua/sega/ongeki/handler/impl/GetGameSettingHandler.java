@@ -2,6 +2,8 @@ package icu.samnyan.aqua.sega.ongeki.handler.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import icu.samnyan.aqua.sega.general.dao.PropertyEntryRepository;
+import icu.samnyan.aqua.sega.general.dao.AllowKeychipRepository;
+import icu.samnyan.aqua.sega.general.model.AllowKeychip;
 import icu.samnyan.aqua.sega.general.model.PropertyEntry;
 import icu.samnyan.aqua.sega.ongeki.handler.BaseHandler;
 import icu.samnyan.aqua.sega.ongeki.model.response.GetGameSettingResp;
@@ -28,27 +30,21 @@ public class GetGameSettingHandler implements BaseHandler {
 
     private final PropertyEntryRepository propertyEntryRepository;
 
+    private final AllowKeychipRepository allowKeychipRepository;
+
     @Autowired
-    public GetGameSettingHandler(BasicMapper mapper, PropertyEntryRepository propertyEntryRepository) {
+    public GetGameSettingHandler(BasicMapper mapper, PropertyEntryRepository propertyEntryRepository, AllowKeychipRepository allowKeychipRepository) {
         this.mapper = mapper;
         this.propertyEntryRepository = propertyEntryRepository;
+        this.allowKeychipRepository = allowKeychipRepository;
     }
 
 
     @Override
     public String handle(Map<String, Object> request) throws JsonProcessingException {
-        String userAgent = (String) request.get("__userAgent");
+        String keychip = (String) request.get("clientId");
+        boolean allow = allowKeychipRepository.existsByKeychipId(keychip);
         try {
-            String keychip = userAgent.substring(17).trim();
-            List<String> allowedKeychips = new ArrayList<>();
-            //allowedKeychips.add("A69E01A1919");
-            boolean allow = false;
-            for (String allowedKeychip: allowedKeychips) {
-                if (!keychip.equals(allowedKeychip)) {
-                    allow = true;
-                    break;
-                }
-            }
             if (!allow) {
                 logger.info("Blocked keychip: " + keychip);
                 return null;
@@ -57,12 +53,17 @@ public class GetGameSettingHandler implements BaseHandler {
 
 
         PropertyEntry start = propertyEntryRepository.findByPropertyKey("reboot_start_time")
-                .orElseGet(() -> new PropertyEntry("reboot_start_time", "2020-01-01 23:59:00.0"));
+                .orElseGet(() -> new PropertyEntry("reboot_start_time", "2020-01-01 06:30:00.0"));
         PropertyEntry end = propertyEntryRepository.findByPropertyKey("reboot_end_time")
-                .orElseGet(() -> new PropertyEntry("reboot_end_time", "2020-01-01 23:59:00.0"));
+                .orElseGet(() -> new PropertyEntry("reboot_end_time", "2020-01-01 07:00:00.0"));
+        PropertyEntry ongekiDataVersion = propertyEntryRepository.findByPropertyKey("ongeki_data_version")
+                .orElseGet(() -> new PropertyEntry("ongeki_data_version", "1.10.00"));
+        PropertyEntry ongekiOnlineDataVersion = propertyEntryRepository.findByPropertyKey("ongeki_online_data_version")
+                .orElseGet(() -> new PropertyEntry("ongeki_online_data_version", "1.10.00"));
 
         GameSetting gameSetting = new GameSetting(
-                "1.05.00",
+                ongekiDataVersion.getPropertyValue(),
+                ongekiOnlineDataVersion.getPropertyValue(),
                 false,
                 10,
                 start.getPropertyValue(),
