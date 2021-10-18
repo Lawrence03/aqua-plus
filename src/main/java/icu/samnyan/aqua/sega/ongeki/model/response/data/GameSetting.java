@@ -25,4 +25,7 @@ public class GameSetting {
     private int maxCountCharacter;
     private int maxCountItem;
     private int maxCountMusic;
+    private int maxCountCard;
+    private int maxCountMusicItem;
+    private int maxCountRivalMusic;
 }

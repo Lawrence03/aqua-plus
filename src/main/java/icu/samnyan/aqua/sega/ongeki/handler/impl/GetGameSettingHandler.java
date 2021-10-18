@@ -71,6 +71,9 @@ public class GetGameSettingHandler implements BaseHandler {
                 false,
                 300,
                 300,
+                300,
+                300,
+                300,
                 300);
 
         GetGameSettingResp resp = new GetGameSettingResp(

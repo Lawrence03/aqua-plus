@@ -83,6 +83,10 @@ public class GetUserPreviewHandler implements BaseHandler {
             resp.setHeadphone(0);
             resp.setBanStatus(user.getBanStatus());
             resp.setWarningConfirmed(user.isWarningConfirmed());
+            resp.setBestBattlePoint(user.getBestBattlePoint());
+            resp.setOverDamageBattlePoint(user.getOverDamageBattlePoint());
+            resp.setRivalScoreCategorySetting(user.getRivalScoreCategorySetting());
+            resp.setLastEmoneyBrand(user.getLastEmoneyBrand());
             userOptionRepository.findByUser(user).ifPresent(x -> {
                 resp.setDispPlayerLv(x.getDispPlayerLv());
                 resp.setDispRating(x.getDispRating());

@@ -35,4 +35,8 @@ public class GetUserPreviewResp {
     private int headphone = 0;
     private int banStatus = 0;
     private boolean isWarningConfirmed = false;
+    private int bestBattlePoint = 0;
+    private int overDamageBattlePoint = 0;
+    private int rivalScoreCategorySetting = 0;
+    private int lastEmoneyBrand = 0;
 }

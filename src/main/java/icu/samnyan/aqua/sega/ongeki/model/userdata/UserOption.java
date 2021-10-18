@@ -100,6 +100,10 @@ public class UserOption implements Serializable {
 
     private int headphone;
 
+    private int stealthField;
+
+    private int colorWallBright;
+
     public UserOption(UserData userData) {
         this.user = userData;
     }

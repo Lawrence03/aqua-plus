@@ -149,4 +149,12 @@ public class UserData implements Serializable {
     private boolean isWarningConfirmed;
 
     private int banStatus;
+
+    private int bestBattlePoint;
+
+    private int overDamageBattlePoint;
+
+    private int rivalScoreCategorySetting;
+
+    private int lastEmoneyBrand;
 }
