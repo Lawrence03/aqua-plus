@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+import java.util.ArrayList;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -51,6 +52,23 @@ public class GetUserItemHandler implements BaseHandler {
         resultMap.put("nextIndex", dbPage.getNumberOfElements() < maxCount ? 0 : currentIndex);
         resultMap.put("itemKind", kind);
         resultMap.put("userItemList", dbPage.getContent());
+        if (kind == 0xc) {
+            ArrayList<Object> userTicketList = new ArrayList<>();
+            Map<String, Object> ticketItem = new LinkedHashMap<>();
+            ticketItem.put("itemId", 11005);
+            ticketItem.put("itemKind", 0xc);
+            ticketItem.put("stock", 99);
+            ticketItem.put("isValid", true);
+            userTicketList.add(ticketItem);
+            ticketItem = new LinkedHashMap<>();
+            ticketItem.put("itemId", 20020);
+            ticketItem.put("itemKind", 0xc);
+            ticketItem.put("stock", 99);
+            ticketItem.put("isValid", true);
+            userTicketList.add(ticketItem);
+            resultMap.put("nextIndex", 0);
+            resultMap.put("userItemList", userTicketList);
+        }
 
         String json = mapper.write(resultMap);
         logger.info("Response: " + json);

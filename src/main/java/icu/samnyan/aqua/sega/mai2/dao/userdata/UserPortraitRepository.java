@@ -12,4 +12,5 @@ import java.util.List;
 @Repository("Mai2UserPortraitRepository")
 public interface UserPortraitRepository extends JpaRepository<UserPortrait, Long> {
     List<UserPortrait> findByUserId(Integer userId);
+    void deleteAllByUserId(Integer userId);
 }

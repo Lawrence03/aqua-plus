@@ -29,5 +29,6 @@ public class UserAll implements Serializable {
     private List<UserActivityList> userActivityList;
     private List<UserCharge> userChargeList;
     private List<UserCourse> userCourseList;
+    private List<UserFriendSeasonRanking> userFriendSeasonRankingList;
     private String isNewCharacterList;
 }

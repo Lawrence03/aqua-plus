@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -49,6 +50,9 @@ public class GetUserExtendHandler implements BaseHandler {
             if(extend.getIsGotoCodeRead() == null) {
                 extend.setIsGotoCodeRead(false);
             }
+            ArrayList<Integer> selectedCardList = new ArrayList<Integer>();
+            selectedCardList.add(4);
+            extend.setSelectedCardList(selectedCardList);
             resultMap.put("userExtend", extend);
         } else {
             resultMap.put("userExtend", null);

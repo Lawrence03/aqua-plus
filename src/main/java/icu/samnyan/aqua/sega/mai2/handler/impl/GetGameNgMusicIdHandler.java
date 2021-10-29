@@ -8,9 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,35 +16,28 @@ import java.util.Map;
 /**
  * @author samnyan (privateamusement@protonmail.com)
  */
-@Component("Mai2GetGameRankingHandler")
-public class GetGameRankingHandler implements BaseHandler {
+@Component("Mai2GetGameNgMusicIdHandler")
+public class GetGameNgMusicIdHandler implements BaseHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GetGameRankingHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(GetGameNgMusicIdHandler.class);
 
     private final BasicMapper mapper;
 
     @Autowired
-    public GetGameRankingHandler(BasicMapper mapper) {
+    public GetGameNgMusicIdHandler(BasicMapper mapper) {
         this.mapper = mapper;
     }
 
     @Override
     public String handle(Map<String, Object> request) throws JsonProcessingException {
-        Integer type = (Integer) request.get("type");
 
-        List<Object> gameRankingList = new ArrayList<>();
+        List<Object> gameNgMusicIdList = new ArrayList<>();
 
         Map<String, Object> resultMap = new LinkedHashMap<>();
-        resultMap.put("type", type);
-        resultMap.put("gameRankingList", gameRankingList);
+        resultMap.put("length", 0);
+        resultMap.put("musicIdList", gameNgMusicIdList);
 
         String json = mapper.write(resultMap);
-        Path path = FileSystems.getDefault().getPath("gameRankingObject.json");
-        if (Files.exists(path)) {
-            try {
-                json = Files.readString(path);
-            } catch (java.io.IOException e) {}
-        }
         logger.info("Response: " + json);
         return json;
     }

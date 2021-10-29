@@ -11,9 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author samnyan (privateamusement@protonmail.com)
@@ -33,11 +31,36 @@ public class GetUserCardHandler implements BaseHandler {
     public String handle(Map<String, Object> request) throws JsonProcessingException {
         long userId = ((Number) request.get("userId")).longValue();
 
+        String romVersion = (String) request.get("__romVersion");
+        int cardId = 1014, charaId = 101, mapId = 1;
+
+        if (romVersion != null) {
+            if (romVersion.compareTo("1.17") >= 0 && romVersion.compareTo("1.19") <= 0) {
+                cardId = 1501014;
+                charaId = 100501;
+                mapId = 100005;
+            }
+            if (romVersion.compareTo("1.20") >= 0 && romVersion.compareTo("1.25") <= 0) {
+                cardId = 2001014;
+                charaId = 200104;
+                mapId = 200001;
+            }
+        }
+
+        List<Object> userCardList = new ArrayList<>();
+        Map<String, Object> cardItem = new LinkedHashMap<>();
+        cardItem.put("cardId", cardId);
+        cardItem.put("cardTypeId", 4);
+        cardItem.put("charaId", charaId);
+        cardItem.put("mapId", mapId);
+        cardItem.put("startDate", "2021-01-01 07:00:00.0");
+        cardItem.put("endDate", "2029-01-01 23:59:59.0");
+        userCardList.add(cardItem);
 
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("userId", userId);
         resultMap.put("nextIndex", 0);
-        resultMap.put("userCardList", Collections.emptyList());
+        resultMap.put("userCardList", userCardList);
 
         String json = mapper.write(resultMap);
         logger.info("Response: " + json);

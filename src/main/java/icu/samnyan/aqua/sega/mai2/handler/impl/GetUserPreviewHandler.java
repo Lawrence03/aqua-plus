@@ -61,7 +61,7 @@ public class GetUserPreviewHandler implements BaseHandler {
                 resp.setDispRate(option.getDispRate());
             });
             resp.setTotalAwake(user.getTotalAwake());
-            resp.setIsNetMember(1);
+            resp.setIsNetMember(2);
             resp.setDailyBonusDate(resp.getLastPlayDate());
             resp.setHeadPhoneVolume(resp.getHeadPhoneVolume());
         }

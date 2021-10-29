@@ -46,8 +46,9 @@ public class UpsertUserAllHandler implements BaseHandler {
     private final UserMusicDetailRepository userMusicDetailRepository;
     private final UserOptionRepository userOptionRepository;
     private final UserUdemaeRepository userUdemaeRepository;
+    private final UserFriendSeasonRankingRepository userFriendSeasonRankingRepository;
 
-    public UpsertUserAllHandler(BasicMapper mapper, CardService cardService, UserActivityRepository userActivityRepository, UserCharacterRepository userCharacterRepository, UserChargeRepository userChargeRepository, UserCourseRepository userCourseRepository, UserDataRepository userDataRepository, UserExtendRepository userExtendRepository, UserFavoriteRepository userFavoriteRepository, UserGeneralDataRepository userGeneralDataRepository, UserGhostRepository userGhostRepository, UserItemRepository userItemRepository, UserLoginBonusRepository userLoginBonusRepository, UserMapRepository userMapRepository, UserMusicDetailRepository userMusicDetailRepository, UserOptionRepository userOptionRepository, UserUdemaeRepository userUdemaeRepository) {
+    public UpsertUserAllHandler(UserFriendSeasonRankingRepository userFriendSeasonRankingRepository, BasicMapper mapper, CardService cardService, UserActivityRepository userActivityRepository, UserCharacterRepository userCharacterRepository, UserChargeRepository userChargeRepository, UserCourseRepository userCourseRepository, UserDataRepository userDataRepository, UserExtendRepository userExtendRepository, UserFavoriteRepository userFavoriteRepository, UserGeneralDataRepository userGeneralDataRepository, UserGhostRepository userGhostRepository, UserItemRepository userItemRepository, UserLoginBonusRepository userLoginBonusRepository, UserMapRepository userMapRepository, UserMusicDetailRepository userMusicDetailRepository, UserOptionRepository userOptionRepository, UserUdemaeRepository userUdemaeRepository) {
         this.mapper = mapper;
         this.cardService = cardService;
         this.userActivityRepository = userActivityRepository;
@@ -65,6 +66,7 @@ public class UpsertUserAllHandler implements BaseHandler {
         this.userMusicDetailRepository = userMusicDetailRepository;
         this.userOptionRepository = userOptionRepository;
         this.userUdemaeRepository = userUdemaeRepository;
+        this.userFriendSeasonRankingRepository = userFriendSeasonRankingRepository;
     }
 
     @Override
@@ -311,6 +313,23 @@ public class UpsertUserAllHandler implements BaseHandler {
                 newUserCourseList.add(newUserCourse);
             }
             userCourseRepository.saveAll(newUserCourseList);
+        }
+
+        List<UserFriendSeasonRanking> userFriendSeasonRankingList = userAll.getUserFriendSeasonRankingList();
+        if(userFriendSeasonRankingList != null) {
+            List<UserFriendSeasonRanking> newUserFriendSeasonRankingList = new ArrayList<>();
+
+            for(UserFriendSeasonRanking newUserFriendSeasonRanking: userFriendSeasonRankingList) {
+                int seasonId = newUserFriendSeasonRanking.getSeasonId();
+
+                Optional<UserFriendSeasonRanking> characterOptional = userFriendSeasonRankingRepository.findByUserAndSeasonId(newUserData, seasonId);
+                UserFriendSeasonRanking userFriendSeasonRanking = characterOptional.orElseGet(() -> new UserFriendSeasonRanking(newUserData));
+
+                newUserFriendSeasonRanking.setId(userFriendSeasonRanking.getId());
+                newUserFriendSeasonRanking.setUser(newUserData);
+                newUserFriendSeasonRankingList.add(newUserFriendSeasonRanking);
+            }
+            userFriendSeasonRankingRepository.saveAll(newUserFriendSeasonRankingList);
         }
 
         return json;

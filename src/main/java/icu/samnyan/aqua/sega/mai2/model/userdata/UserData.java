@@ -180,4 +180,8 @@ public class UserData implements Serializable {
     private long totalReMasterAchievement;
 
     private Long dateTime;
+
+    private long playerOldRating;
+
+    private long playerNewRating;
 }

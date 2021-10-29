@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import icu.samnyan.aqua.sega.allnet.model.response.PowerOnResponse;
 import icu.samnyan.aqua.sega.allnet.model.response.PowerOnResponseV2;
 import icu.samnyan.aqua.sega.allnet.model.response.PowerOnResponseV3;
+import icu.samnyan.aqua.sega.allnet.model.response.DownloadOrderResponse;
 import icu.samnyan.aqua.sega.allnet.util.Decoder;
 import icu.samnyan.aqua.sega.general.dao.AllowKeychipRepository;
 import icu.samnyan.aqua.sega.general.model.AllowKeychip;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import icu.samnyan.aqua.sega.util.Compression;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.Base64;
 
 import static icu.samnyan.aqua.sega.util.AquaConst.DEFAULT_KEYCHIP_ID;
 
@@ -93,6 +96,34 @@ public class AllNetController {
         }
         logger.info("Response: " + mapper.writeValueAsString(resp));
         return resp.toString().concat("\n");
+    }
+
+    @PostMapping(value = "/sys/servlet/DownloadOrder", produces = "text/plain")
+    public String downloadOrder(InputStream dataStream) throws IOException {
+
+        byte[] bytes = dataStream.readAllBytes();
+        Map<String, String> reqMap = Decoder.decode(bytes);
+
+        logger.info("Request: DownloadOrder, " + mapper.writeValueAsString(reqMap));
+
+        String serial = reqMap.getOrDefault("serial", DEFAULT_KEYCHIP_ID);
+        String gameId = reqMap.getOrDefault("game_id", "");
+        String ver = reqMap.getOrDefault("ver", "1.0");
+
+        boolean allow = allowKeychipRepository.existsByKeychipId(serial);
+        try {
+            if (!allow) {
+                logger.info("Blocked keychip: " + serial);
+                return null;
+            }
+        } catch (Exception e) {}
+
+        PowerOnResponse resp;
+        resp = new DownloadOrderResponse(1, "null");
+        logger.info("Response: " + mapper.writeValueAsString(resp));
+        byte[] responseByte = resp.toString().concat("\n").getBytes();
+        byte[] compressed = Compression.compress(responseByte);
+        return Base64.getMimeEncoder().encodeToString(compressed);
     }
 
     private String switchUri(String gameId, String ver, String serial) {

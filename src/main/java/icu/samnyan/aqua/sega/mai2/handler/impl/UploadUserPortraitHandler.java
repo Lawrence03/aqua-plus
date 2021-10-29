@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.Map;
 
 /**
@@ -29,8 +30,12 @@ public class UploadUserPortraitHandler implements BaseHandler {
     }
 
     @Override
+    @Transactional
     public String handle(Map<String, Object> request) throws JsonProcessingException {
         UserPortrait userPortrait = mapper.convert(request.get("userPortrait"), UserPortrait.class);
+        if (userPortrait.getDivNumber() == 0){
+            userPortraitRepository.deleteAllByUserId(userPortrait.getUserId());
+        }
         userPortraitRepository.save(userPortrait);
 
         String json = "{\"returnCode\":\"1\",\"apiName\":\"UploadUserPortraitApi\"}";

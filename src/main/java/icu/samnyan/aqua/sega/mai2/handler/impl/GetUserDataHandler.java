@@ -43,6 +43,8 @@ public class GetUserDataHandler implements BaseHandler {
             userData.setDateTime(0L);
         }
 
+        userData.setIsNetMember(2);
+
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("userId", userId);
         resultMap.put("userData", userData);

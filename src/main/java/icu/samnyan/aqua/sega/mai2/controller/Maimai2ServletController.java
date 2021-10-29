@@ -2,10 +2,7 @@ package icu.samnyan.aqua.sega.mai2.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import icu.samnyan.aqua.sega.mai2.handler.impl.*;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -45,9 +42,13 @@ public class Maimai2ServletController {
     private final UpsertUserAllHandler upsertUserAllHandler;
     private final UserLoginHandler userLoginHandler;
     private final UserLogoutHandler userLogoutHandler;
+    private final GetGameNgMusicIdHandler getGameNgMusicIdHandler;
+    private final GetUserFriendSeasonRankingHandler getUserFriendSeasonRankingHandler;
 
-    public Maimai2ServletController(GetGameChargeHandler getGameChargeHandler, GetGameEventHandler getGameEventHandler, GetGameRankingHandler getGameRankingHandler, GetGameSettingHandler getGameSettingHandler, GetGameTournamentInfoHandler getGameTournamentInfoHandler, GetUserActivityHandler getUserActivityHandler, GetUserCardHandler getUserCardHandler, GetUserChargeHandler getUserChargeHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserCourseHandler getUserCourseHandler, GetUserDataHandler getUserDataHandler, GetUserExtendHandler getUserExtendHandler, GetUserFavoriteHandler getUserFavoriteHandler, GetUserGhostHandler getUserGhostHandler, GetUserItemHandler getUserItemHandler, GetUserLoginBonusHandler getUserLoginBonusHandler, GetUserMapHandler getUserMapHandler, GetUserMusicHandler getUserMusicHandler, GetUserOptionHandler getUserOptionHandler, GetUserPortraitHandler getUserPortraitHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRatingHandler getUserRatingHandler, GetUserRegionHandler getUserRegionHandler, UploadUserPhotoHandler uploadUserPhotoHandler, UploadUserPlaylogHandler uploadUserPlaylogHandler, UploadUserPortraitHandler uploadUserPortraitHandler, UpsertUserAllHandler upsertUserAllHandler, UserLoginHandler userLoginHandler, UserLogoutHandler userLogoutHandler) {
+    public Maimai2ServletController(GetGameNgMusicIdHandler getGameNgMusicIdHandler, GetUserFriendSeasonRankingHandler getUserFriendSeasonRankingHandler, GetGameChargeHandler getGameChargeHandler, GetGameEventHandler getGameEventHandler, GetGameRankingHandler getGameRankingHandler, GetGameSettingHandler getGameSettingHandler, GetGameTournamentInfoHandler getGameTournamentInfoHandler, GetUserActivityHandler getUserActivityHandler, GetUserCardHandler getUserCardHandler, GetUserChargeHandler getUserChargeHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserCourseHandler getUserCourseHandler, GetUserDataHandler getUserDataHandler, GetUserExtendHandler getUserExtendHandler, GetUserFavoriteHandler getUserFavoriteHandler, GetUserGhostHandler getUserGhostHandler, GetUserItemHandler getUserItemHandler, GetUserLoginBonusHandler getUserLoginBonusHandler, GetUserMapHandler getUserMapHandler, GetUserMusicHandler getUserMusicHandler, GetUserOptionHandler getUserOptionHandler, GetUserPortraitHandler getUserPortraitHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRatingHandler getUserRatingHandler, GetUserRegionHandler getUserRegionHandler, UploadUserPhotoHandler uploadUserPhotoHandler, UploadUserPlaylogHandler uploadUserPlaylogHandler, UploadUserPortraitHandler uploadUserPortraitHandler, UpsertUserAllHandler upsertUserAllHandler, UserLoginHandler userLoginHandler, UserLogoutHandler userLogoutHandler) {
         this.getGameChargeHandler = getGameChargeHandler;
+        this.getGameNgMusicIdHandler = getGameNgMusicIdHandler;
+        this.getUserFriendSeasonRankingHandler = getUserFriendSeasonRankingHandler;
         this.getGameEventHandler = getGameEventHandler;
         this.getGameRankingHandler = getGameRankingHandler;
         this.getGameSettingHandler = getGameSettingHandler;
@@ -84,6 +85,17 @@ public class Maimai2ServletController {
         return getGameSettingHandler.handle(request);
     }
 
+    @PostMapping(value = {"SetGameRankingApi"})
+    public String setGameRankingApi(@ModelAttribute Map<String, Object> request) {
+        java.nio.file.Path path = java.nio.file.FileSystems.getDefault().getPath("gameRankingObject.json");
+        try {
+            icu.samnyan.aqua.sega.util.jackson.BasicMapper mapper = new icu.samnyan.aqua.sega.util.jackson.BasicMapper();
+            String json = mapper.write(request);
+            java.nio.file.Files.writeString(path, json);
+        } catch (java.io.IOException e) {}
+        return "{\"returnCode\":\"1\",\"apiName\":\"SetGameRankingApi\"}";
+    }
+
     @PostMapping(value = {"GetGameRankingApi", "84d108c202da73c82b3b7721519aee45", "192a36b25a50636bc7016fce3b8bf6df", "ded97e28636b1ca780dbd25d6f511df1", "3f10c39ffccf79a01118a33643ce44b7"})
     public String getGameRankingApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
         return getGameRankingHandler.handle(request);
@@ -104,6 +116,11 @@ public class Maimai2ServletController {
         return getGameChargeHandler.handle(request);
     }
 
+    @PostMapping(value = {"GetGameNgMusicIdApi"})
+    public String getGameNgMusicIdApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getGameNgMusicIdHandler.handle(request);
+    }
+
     @PostMapping(value = {"GetTransferFriendApi", "797d1c5b49820583bb37d12d7c76b973", "93c1d991b06af71096137559442999b5"})
     public String getTransferFriendApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
         return "{\"returnCode\":\"1\",\"apiName\":\"GetTransferFriendApi\"}";
@@ -115,7 +132,10 @@ public class Maimai2ServletController {
     }
 
     @PostMapping(value = {"GetUserCardApi", "a4babc0618b08cdefed1be1dca131ed9", "ffc1e4d28c297f2f68be41e15e3da01a", "4defa4241bf57231679b90f270e6e23f", "1aef202c9db3d642e25c9ca1c2577bc1"})
-    public String getUserCardApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+    public String getUserCardApi(@ModelAttribute Map<String, Object> request, @PathVariable(required = false) String ROM_VERSION) throws JsonProcessingException {
+        if (ROM_VERSION != null) {
+            request.put("__romVersion", ROM_VERSION);
+        }
         return getUserCardHandler.handle(request);
     }
 
@@ -147,6 +167,11 @@ public class Maimai2ServletController {
     @PostMapping(value = {"GetUserFavoriteApi", "596e2f89924d47ec6881cc8a3dfb26c4", "421bb9391f4aeaadfa010ce0b66f059d", "3ec86fc49035f55e9612959363aa3aa3", "47268109ab1431c2da2f2a20bfe771fa"})
     public String getUserFavoriteApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
         return getUserFavoriteHandler.handle(request);
+    }
+
+    @PostMapping(value = {"GetUserFriendSeasonRankingApi"})
+    public String getUserFriendSeasonRankingApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getUserFriendSeasonRankingHandler.handle(request);
     }
 
     @PostMapping(value = {"GetUserGhostApi", "817d4d37849366f0ea33429c29e2d5b1", "d09be04bb2ced37f3a46e143667daf2b", "9098384014d4ffbeefa34feddea6969c", "05175839e210f2512d60bdeea62edd78"})
