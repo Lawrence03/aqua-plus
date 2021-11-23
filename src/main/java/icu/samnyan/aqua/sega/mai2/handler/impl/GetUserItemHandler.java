@@ -57,13 +57,13 @@ public class GetUserItemHandler implements BaseHandler {
             Map<String, Object> ticketItem = new LinkedHashMap<>();
             ticketItem.put("itemId", 11005);
             ticketItem.put("itemKind", 0xc);
-            ticketItem.put("stock", 99);
+            ticketItem.put("stock", 9);
             ticketItem.put("isValid", true);
             userTicketList.add(ticketItem);
             ticketItem = new LinkedHashMap<>();
             ticketItem.put("itemId", 20020);
             ticketItem.put("itemKind", 0xc);
-            ticketItem.put("stock", 99);
+            ticketItem.put("stock", 9);
             ticketItem.put("isValid", true);
             userTicketList.add(ticketItem);
             resultMap.put("nextIndex", 0);
