@@ -25,18 +25,23 @@ public class AimeDbServerInitializer extends ChannelInitializer<SocketChannel> {
     private final LookupHandler lookupHandler;
     private final Lookup2Handler lookup2Handler;
     private final RegisterHandler registerHandler;
+    private final TouchHandler touchHandler;
+    private final BatchLogHandler batchLogHandler;
 
     @Autowired
-    public AimeDbServerInitializer(CampaignHandler campaignHandler, FeliCaLookupHandler feliCaLookupHandler, FeliCaLookup2Handler feliCaLookup2Handler, GoodbyeHandler goodbyeHandler, HelloHandler helloHandler, LogHandler logHandler, LookupHandler lookupHandler, Lookup2Handler lookup2Handler, RegisterHandler registerHandler) {
+    public AimeDbServerInitializer(CampaignHandler campaignHandler, FeliCaLookupHandler feliCaLookupHandler, FeliCaLookup2Handler feliCaLookup2Handler, GoodbyeHandler goodbyeHandler, HelloHandler helloHandler, LogHandler logHandler, LookupHandler lookupHandler, Lookup2Handler lookup2Handler, RegisterHandler registerHandler, TouchHandler touchHandler, BatchLogHandler batchLogHandler) {
         this.campaignHandler = campaignHandler;
-        this.feliCaLookup2Handler = feliCaLookup2Handler;
+
         this.feliCaLookupHandler = feliCaLookupHandler;
+        this.feliCaLookup2Handler = feliCaLookup2Handler;
         this.goodbyeHandler = goodbyeHandler;
         this.helloHandler = helloHandler;
         this.logHandler = logHandler;
         this.lookupHandler = lookupHandler;
         this.lookup2Handler = lookup2Handler;
         this.registerHandler = registerHandler;
+        this.touchHandler = touchHandler;
+        this.batchLogHandler = batchLogHandler;
     }
 
 
@@ -45,7 +50,7 @@ public class AimeDbServerInitializer extends ChannelInitializer<SocketChannel> {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("encoder", new AimeDbEncoder());
         pipeline.addLast("decoder", new AimeDbDecoder());
-        pipeline.addLast("handler", new AimeDbRequestHandler(campaignHandler, feliCaLookupHandler, feliCaLookup2Handler, goodbyeHandler, helloHandler, logHandler, lookupHandler, lookup2Handler, registerHandler));
+        pipeline.addLast("handler", new AimeDbRequestHandler(campaignHandler, feliCaLookupHandler, feliCaLookup2Handler, goodbyeHandler, helloHandler, logHandler, lookupHandler, lookup2Handler, registerHandler, touchHandler, batchLogHandler));
 
     }
 }

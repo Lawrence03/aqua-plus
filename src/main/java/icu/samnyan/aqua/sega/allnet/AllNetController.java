@@ -1,13 +1,16 @@
 package icu.samnyan.aqua.sega.allnet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import icu.samnyan.aqua.sega.allnet.model.response.DownloadOrderResponse;
 import icu.samnyan.aqua.sega.allnet.model.response.PowerOnResponse;
 import icu.samnyan.aqua.sega.allnet.model.response.PowerOnResponseV2;
 import icu.samnyan.aqua.sega.allnet.model.response.PowerOnResponseV3;
-import icu.samnyan.aqua.sega.allnet.model.response.DownloadOrderResponse;
 import icu.samnyan.aqua.sega.allnet.util.Decoder;
 import icu.samnyan.aqua.sega.general.dao.AllowKeychipRepository;
 import icu.samnyan.aqua.sega.general.model.AllowKeychip;
+import icu.samnyan.aqua.sega.util.Compression;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +18,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import icu.samnyan.aqua.sega.util.Compression;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.Base64;
 
 import static icu.samnyan.aqua.sega.util.AquaConst.DEFAULT_KEYCHIP_ID;
 
@@ -134,6 +136,8 @@ public class AllNetController {
                 return "http://" + HOST + ":" + PORT + "/diva/";
             case "SDDT":
                 return "http://" + HOST + ":" + PORT + "/OngekiServlet/";
+            case "SDHD":
+                return "http://" + HOST + ":" + PORT + "/ChusanServlet/";
             case "SDEY":
                 return "http://" + HOST + ":" + PORT + "/";
             default:
