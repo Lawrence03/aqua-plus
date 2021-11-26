@@ -23,7 +23,7 @@ public class ClientSettingService {
     }
 
     public Optional<GameVersion> getSetting(String serial) {
-        if (serial.equals(DEFAULT_KEYCHIP_ID)) {
+        if (serial == null || serial.isBlank() || DEFAULT_KEYCHIP_ID.equals(serial)) {
             return Optional.empty();
         }
         try {
