@@ -51,9 +51,9 @@ public class GetUserTeamHandler implements BaseHandler {
                 resultMap.put("teamName", userTeam.getTeamName());
             }
         } else {
-            resultMap.put("teamId", 1);
-            resultMap.put("teamRank", 1);
-            resultMap.put("teamName", "WELCUME TO JINET");
+            resultMap.put("teamId", 0);
+            resultMap.put("teamRank", 0);
+            resultMap.put("teamName", "");
         }
         resultMap.put("userTeamPoint", 114514);
 
