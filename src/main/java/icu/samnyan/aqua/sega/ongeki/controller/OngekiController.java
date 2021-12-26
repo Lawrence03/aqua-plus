@@ -283,12 +283,12 @@ public class OngekiController {
 
     @PostMapping(value = {"UpsertClientBookkeepingApi", "55D43A27DDF653604CC2EDAC81EE64BD", "BB55D6AE7DD67E772BC250544DD6F8D8"})
     public String upsertClientBookkeeping(@ModelAttribute Map<String, Object> request) {
-        return "{\"returnCode\":1},\"apiName\":\"upsertClientBookkeeping\"";
+        return "{\"returnCode\":1},\"apiName\":\"upsertClientBookkeeping\"}";
     }
 
     @PostMapping(value = {"UpsertClientDevelopApi", "F2117DA883BEE2A35E10A8F74937311B", "BF85D22E0365D9B7A0B3A7B3331A562E"})
     public String upsertClientDevelop(@ModelAttribute Map<String, Object> request) {
-        return "{\"returnCode\":1},\"apiName\":\"upsertClientDevelop\"";
+        return "{\"returnCode\":1},\"apiName\":\"upsertClientDevelop\"}";
     }
 
     @PostMapping(value = {"UpsertClientErrorApi", "31D37ACDAD33E4A5811002A2ACCFE0EA", "5AD5FAF247B2862385A1A6D4713BB53F"})
