@@ -12,5 +12,4 @@ import java.util.List;
 @Repository("C3GameEventRepository")
 public interface GameEventRepository extends JpaRepository<GameEvent, Integer> {
 
-    List<GameEvent> findByEnable(boolean enable);
 }

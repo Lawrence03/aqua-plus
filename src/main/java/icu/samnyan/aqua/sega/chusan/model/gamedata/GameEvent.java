@@ -32,6 +32,4 @@ public class GameEvent implements Serializable {
 
     private LocalDateTime endDate;
 
-    @JsonIgnore
-    private boolean enable;
 }

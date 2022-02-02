@@ -138,6 +138,8 @@ public class AllNetController {
                 return "http://" + HOST + ":" + PORT + "/OngekiServlet/";
             case "SDHD":
                 return "http://" + HOST + ":" + PORT + "/ChusanServlet/";
+            case "SDED":
+                return "http://" + HOST + ":" + PORT + "/CardmakerServlet/";
             case "SDEY":
                 return "http://" + HOST + ":" + PORT + "/";
             default:

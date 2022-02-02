@@ -155,4 +155,6 @@ public class UserPlaylog implements Serializable {
 
     private int battlePoint;
 
+    private int platinumScore;
+
 }

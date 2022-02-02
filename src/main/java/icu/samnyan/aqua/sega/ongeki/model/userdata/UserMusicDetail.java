@@ -67,6 +67,8 @@ public class UserMusicDetail implements Serializable {
 
     private boolean isStoryWatched;
 
+    private int platinumScoreMax;
+
     public UserMusicDetail(UserData userData) {
         this.user = userData;
     }

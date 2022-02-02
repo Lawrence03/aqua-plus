@@ -87,6 +87,7 @@ public class GetUserPreviewHandler implements BaseHandler {
             resp.setOverDamageBattlePoint(user.getOverDamageBattlePoint());
             resp.setRivalScoreCategorySetting(user.getRivalScoreCategorySetting());
             resp.setLastEmoneyBrand(user.getLastEmoneyBrand());
+            resp.setLastEmoneyCredit(user.getLastEmoneyCredit());
             userOptionRepository.findByUser(user).ifPresent(x -> {
                 resp.setDispPlayerLv(x.getDispPlayerLv());
                 resp.setDispRating(x.getDispRating());

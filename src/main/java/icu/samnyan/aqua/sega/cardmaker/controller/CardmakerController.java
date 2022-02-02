@@ -252,6 +252,20 @@ public class CardmakerController {
         return "{\"returnCode\":1,\"orderId\":0,\"serialId\": \"\"}";
     }
 
+    // For Chunithm
+
+    @PostMapping(value = {"Chuni/Ping"})
+    public String chuniPing(@ModelAttribute Map<String, Object> request){
+        return "{\"result\":1}";
+    }
+
+    @PostMapping(value = {"Chuni/GetGameGachaApi"})
+    public String chuniGetGameGacha(@ModelAttribute Map<String, Object> request) {
+        return "";
+    }
+
+
+
 }
 
 

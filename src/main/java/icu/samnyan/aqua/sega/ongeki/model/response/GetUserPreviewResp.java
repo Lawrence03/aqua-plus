@@ -39,4 +39,5 @@ public class GetUserPreviewResp {
     private int overDamageBattlePoint = 0;
     private int rivalScoreCategorySetting = 0;
     private int lastEmoneyBrand = 0;
+    private int lastEmoneyCredit = 0;
 }

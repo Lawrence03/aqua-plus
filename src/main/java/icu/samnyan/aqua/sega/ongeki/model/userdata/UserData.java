@@ -157,4 +157,9 @@ public class UserData implements Serializable {
     private int rivalScoreCategorySetting;
 
     private int lastEmoneyBrand;
+
+    private int lastEmoneyCredit;
+
+    @JsonProperty("isDialogWatchedSuggestMemory")
+    private boolean isDialogWatchedSuggestMemory;
 }
