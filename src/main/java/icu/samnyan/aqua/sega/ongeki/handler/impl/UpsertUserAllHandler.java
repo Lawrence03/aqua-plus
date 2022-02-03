@@ -325,20 +325,20 @@ public class UpsertUserAllHandler implements BaseHandler {
 
         // UserMemoryChapterList
         List<UserMemoryChapter> userMemoryChapterList = upsertUserAll.getUserMemoryChapterList();
-        List<UserMemoryChapter> newUserMemoryChapterList = new ArrayList<>();
+        if(userMemoryChapterList != null){
+            List<UserMemoryChapter> newUserMemoryChapterList = new ArrayList<>();
+            for (UserMemoryChapter newUserMemoryChapter : userMemoryChapterList) {
+                int chapterId = newUserMemoryChapter.getChapterId();
 
-        for (UserMemoryChapter newUserMemoryChapter : userMemoryChapterList) {
-            int chapterId = newUserMemoryChapter.getChapterId();
+                Optional<UserMemoryChapter> chapterOptional = userMemoryChapterRepository.findByUserAndChapterId(newUserData, chapterId);
+                UserMemoryChapter userMemoryChapter = chapterOptional.orElseGet(() -> new UserMemoryChapter(newUserData));
 
-            Optional<UserMemoryChapter> chapterOptional = userMemoryChapterRepository.findByUserAndChapterId(newUserData, chapterId);
-            UserMemoryChapter userMemoryChapter = chapterOptional.orElseGet(() -> new UserMemoryChapter(newUserData));
-
-            newUserMemoryChapter.setId(userMemoryChapter.getId());
-            newUserMemoryChapter.setUser(newUserData);
-            newUserMemoryChapterList.add(newUserMemoryChapter);
+                newUserMemoryChapter.setId(userMemoryChapter.getId());
+                newUserMemoryChapter.setUser(newUserData);
+                newUserMemoryChapterList.add(newUserMemoryChapter);
+            }
+            userMemoryChapterRepository.saveAll(newUserMemoryChapterList);
         }
-        userMemoryChapterRepository.saveAll(newUserMemoryChapterList);
-
 
         // UserItemList
         List<UserItem> userItemList = upsertUserAll.getUserItemList();
