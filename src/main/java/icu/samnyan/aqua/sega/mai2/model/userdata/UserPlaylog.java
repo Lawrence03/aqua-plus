@@ -243,4 +243,6 @@ public class UserPlaylog implements Serializable {
 
     @JsonProperty("isPhotoUpload")
     private boolean isPhotoUpload = false;
+
+    private int trialPlayAchievement;
 }

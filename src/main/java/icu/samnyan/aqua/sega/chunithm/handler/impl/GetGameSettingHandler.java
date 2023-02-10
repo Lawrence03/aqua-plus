@@ -13,6 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Map;
 
 /**
@@ -47,18 +51,13 @@ public class GetGameSettingHandler implements BaseHandler {
                 return null;
             }
         } catch (Exception e) {}
-
-        PropertyEntry start = propertyEntryRepository.findByPropertyKey("reboot_start_time")
-                .orElseGet(() -> new PropertyEntry("reboot_start_time", "2020-01-01 06:30:00.0"));
-        PropertyEntry end = propertyEntryRepository.findByPropertyKey("reboot_end_time")
-                .orElseGet(() -> new PropertyEntry("reboot_end_time", "2020-01-01 07:00:00.0"));
-
+        
         GameSetting gameSetting = new GameSetting(
                 1,
                 false,
                 10,
-                start.getPropertyValue(),
-                end.getPropertyValue(),
+                ZonedDateTime.now(ZoneId.of("Asia/Tokyo")).toString().substring(0, 10).concat(" 06:30:00.0"),
+                ZonedDateTime.now(ZoneId.of("Asia/Tokyo")).toString().substring(0, 10).concat(" 07:00:00.0"),
                 false,
                 300,
                 300,

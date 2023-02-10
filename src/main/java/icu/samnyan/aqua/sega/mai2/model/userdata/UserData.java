@@ -184,4 +184,10 @@ public class UserData implements Serializable {
     private long playerOldRating;
 
     private long playerNewRating;
+
+    private String lastPairLoginDate;
+
+    private String lastTrialPlayDate;
+
+    private int banState;
 }

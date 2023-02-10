@@ -64,6 +64,7 @@ public class GetUserPreviewHandler implements BaseHandler {
             resp.setIsNetMember(2);
             resp.setDailyBonusDate(resp.getLastPlayDate());
             resp.setHeadPhoneVolume(resp.getHeadPhoneVolume());
+            resp.setBanState(user.getBanState());
         }
 
         String json = mapper.write(resp);

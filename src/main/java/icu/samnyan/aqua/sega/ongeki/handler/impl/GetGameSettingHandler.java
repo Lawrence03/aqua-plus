@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +53,6 @@ public class GetGameSettingHandler implements BaseHandler {
             }
         } catch (Exception e) {}
 
-
-        PropertyEntry start = propertyEntryRepository.findByPropertyKey("reboot_start_time")
-                .orElseGet(() -> new PropertyEntry("reboot_start_time", "2020-01-01 06:30:00.0"));
-        PropertyEntry end = propertyEntryRepository.findByPropertyKey("reboot_end_time")
-                .orElseGet(() -> new PropertyEntry("reboot_end_time", "2020-01-01 07:00:00.0"));
         PropertyEntry ongekiDataVersion = propertyEntryRepository.findByPropertyKey("ongeki_data_version")
                 .orElseGet(() -> new PropertyEntry("ongeki_data_version", "1.10.00"));
         PropertyEntry ongekiOnlineDataVersion = propertyEntryRepository.findByPropertyKey("ongeki_online_data_version")
@@ -66,8 +63,8 @@ public class GetGameSettingHandler implements BaseHandler {
                 ongekiOnlineDataVersion.getPropertyValue(),
                 false,
                 10,
-                start.getPropertyValue(),
-                end.getPropertyValue(),
+                ZonedDateTime.now(ZoneId.of("Asia/Tokyo")).plusHours(23).toString().substring(0, 20).replace('T', ' ').concat("0"),
+                ZonedDateTime.now(ZoneId.of("Asia/Tokyo")).plusHours(23).plusMinutes(1).toString().substring(0, 20).replace('T', ' ').concat("0"),
                 false,
                 300,
                 300,

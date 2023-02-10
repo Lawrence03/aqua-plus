@@ -35,5 +35,6 @@ public class GetUserPreviewResp {
     private String dailyBonusDate = "";
     private int headPhoneVolume = 0;
     private boolean isInherit = false;
+    private int banState = 0;
 
 }

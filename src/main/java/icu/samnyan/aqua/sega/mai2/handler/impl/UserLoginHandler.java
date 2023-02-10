@@ -37,13 +37,18 @@ public class UserLoginHandler implements BaseHandler {
     @Override
     public String handle(Map<String, Object> request) throws JsonProcessingException {
         long userId = ((Number) request.get("userId")).longValue();
-        Optional<Card> cardOptional = cardService.getCardByExtId(userId);
-        if (cardOptional.isEmpty()) {
-            if (request.containsKey("accessCode")) {
-                String accessCode = (String) request.get("accessCode");
-                cardService.registerByAccessCode(accessCode, userId);
+        try {
+            Optional<Card> cardOptional = cardService.getCardByExtId(userId);
+            if (cardOptional.isEmpty()) {
+                if (request.containsKey("accessCode")) {
+                    String accessCode = (String) request.get("accessCode");
+                    cardService.registerByAccessCode(accessCode, userId);
+                }
             }
+        } catch (Exception e){
+
         }
+
 
         Optional<UserData> userOptional = userDataRepository.findByCard_ExtId(userId);
 

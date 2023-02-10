@@ -52,6 +52,7 @@ public class ChusanServletController {
     private final UpsertClientTestmodeHandler upsertClientTestmodeHandler;
     private final UpsertUserAllHandler upsertUserAllHandler;
     private final UpsertUserChargelogHandler upsertUserChargelogHandler;
+    private final GetUserNetBattleDataHandler getUserNetBattleDataHandler;
 
     @Autowired
     public ChusanServletController(GameLoginHandler gameLoginHandler, GameLogoutHandler gameLogoutHandler,
@@ -77,7 +78,8 @@ public class ChusanServletController {
                                    UpsertClientDevelopHandler upsertClientDevelopHandler, UpsertClientErrorHandler upsertClientErrorHandler,
                                    UpsertClientSettingHandler upsertClientSettingHandler,
                                    UpsertClientTestmodeHandler upsertClientTestmodeHandler, UpsertUserAllHandler upsertUserAllHandler,
-                                   UpsertUserChargelogHandler upsertUserChargelogHandler) {
+                                   UpsertUserChargelogHandler upsertUserChargelogHandler,
+                                   GetUserNetBattleDataHandler getUserNetBattleDataHandler) {
         this.gameLoginHandler = gameLoginHandler;
         this.gameLogoutHandler = gameLogoutHandler;
         this.getGameChargeHandler = getGameChargeHandler;
@@ -116,6 +118,7 @@ public class ChusanServletController {
         this.upsertClientTestmodeHandler = upsertClientTestmodeHandler;
         this.upsertUserAllHandler = upsertUserAllHandler;
         this.upsertUserChargelogHandler = upsertUserChargelogHandler;
+        this.getUserNetBattleDataHandler = getUserNetBattleDataHandler;
     }
 
     @PostMapping(value = "GameLoginApi")
@@ -312,5 +315,10 @@ public class ChusanServletController {
     @PostMapping(value = "UpsertUserChargelogApi")
     String upsertUserChargelog(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
         return upsertUserChargelogHandler.handle(request);
+    }
+
+    @PostMapping(value = "GetUserNetBattleDataApi")
+    String getUserNetBattleData(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getUserNetBattleDataHandler.handle(request);
     }
 }
