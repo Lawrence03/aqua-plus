@@ -46,8 +46,9 @@ public class Maimai2ServletController {
     private final GetUserFriendSeasonRankingHandler getUserFriendSeasonRankingHandler;
     private final GetUserRecommendSelectMusicHandler getUserRecommendSelectMusicHandler;
     private final GetUserRecommendRateMusicHandler getUserRecommendRateMusicHandler;
+    private final GetUserFavoriteItemHandler getUserFavoriteItemHandler;
 
-    public Maimai2ServletController(GetGameNgMusicIdHandler getGameNgMusicIdHandler, GetUserFriendSeasonRankingHandler getUserFriendSeasonRankingHandler, GetGameChargeHandler getGameChargeHandler, GetGameEventHandler getGameEventHandler, GetGameRankingHandler getGameRankingHandler, GetGameSettingHandler getGameSettingHandler, GetGameTournamentInfoHandler getGameTournamentInfoHandler, GetUserActivityHandler getUserActivityHandler, GetUserCardHandler getUserCardHandler, GetUserChargeHandler getUserChargeHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserCourseHandler getUserCourseHandler, GetUserDataHandler getUserDataHandler, GetUserExtendHandler getUserExtendHandler, GetUserFavoriteHandler getUserFavoriteHandler, GetUserGhostHandler getUserGhostHandler, GetUserItemHandler getUserItemHandler, GetUserLoginBonusHandler getUserLoginBonusHandler, GetUserMapHandler getUserMapHandler, GetUserMusicHandler getUserMusicHandler, GetUserOptionHandler getUserOptionHandler, GetUserPortraitHandler getUserPortraitHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRatingHandler getUserRatingHandler, GetUserRegionHandler getUserRegionHandler, UploadUserPhotoHandler uploadUserPhotoHandler, UploadUserPlaylogHandler uploadUserPlaylogHandler, UploadUserPortraitHandler uploadUserPortraitHandler, UpsertUserAllHandler upsertUserAllHandler, UserLoginHandler userLoginHandler, UserLogoutHandler userLogoutHandler, GetUserRecommendRateMusicHandler getUserRecommendRateMusicHandler, GetUserRecommendSelectMusicHandler getUserRecommendSelectMusicHandler) {
+    public Maimai2ServletController(GetGameNgMusicIdHandler getGameNgMusicIdHandler, GetUserFriendSeasonRankingHandler getUserFriendSeasonRankingHandler, GetGameChargeHandler getGameChargeHandler, GetGameEventHandler getGameEventHandler, GetGameRankingHandler getGameRankingHandler, GetGameSettingHandler getGameSettingHandler, GetGameTournamentInfoHandler getGameTournamentInfoHandler, GetUserActivityHandler getUserActivityHandler, GetUserCardHandler getUserCardHandler, GetUserChargeHandler getUserChargeHandler, GetUserCharacterHandler getUserCharacterHandler, GetUserCourseHandler getUserCourseHandler, GetUserDataHandler getUserDataHandler, GetUserExtendHandler getUserExtendHandler, GetUserFavoriteHandler getUserFavoriteHandler, GetUserGhostHandler getUserGhostHandler, GetUserItemHandler getUserItemHandler, GetUserLoginBonusHandler getUserLoginBonusHandler, GetUserMapHandler getUserMapHandler, GetUserMusicHandler getUserMusicHandler, GetUserOptionHandler getUserOptionHandler, GetUserPortraitHandler getUserPortraitHandler, GetUserPreviewHandler getUserPreviewHandler, GetUserRatingHandler getUserRatingHandler, GetUserRegionHandler getUserRegionHandler, UploadUserPhotoHandler uploadUserPhotoHandler, UploadUserPlaylogHandler uploadUserPlaylogHandler, UploadUserPortraitHandler uploadUserPortraitHandler, UpsertUserAllHandler upsertUserAllHandler, UserLoginHandler userLoginHandler, UserLogoutHandler userLogoutHandler, GetUserRecommendRateMusicHandler getUserRecommendRateMusicHandler, GetUserRecommendSelectMusicHandler getUserRecommendSelectMusicHandler, GetUserFavoriteItemHandler getUserFavoriteItemHandler) {
         this.getGameChargeHandler = getGameChargeHandler;
         this.getGameNgMusicIdHandler = getGameNgMusicIdHandler;
         this.getUserFriendSeasonRankingHandler = getUserFriendSeasonRankingHandler;
@@ -81,6 +82,7 @@ public class Maimai2ServletController {
         this.userLogoutHandler = userLogoutHandler;
         this.getUserRecommendRateMusicHandler = getUserRecommendRateMusicHandler;
         this.getUserRecommendSelectMusicHandler = getUserRecommendSelectMusicHandler;
+        this.getUserFavoriteItemHandler = getUserFavoriteItemHandler;
     }
 
 
@@ -306,5 +308,10 @@ public class Maimai2ServletController {
     @PostMapping(value = {"GetUserRecommendSelectMusicApi"})
     public String getUserRecommendSelectMusicApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
         return getUserRecommendSelectMusicHandler.handle(request);
+    }
+
+    @PostMapping(value = {"GetUserFavoriteItemApi"})
+    public String getUserFavoriteItemApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getUserFavoriteItemHandler.handle(request);
     }
 }

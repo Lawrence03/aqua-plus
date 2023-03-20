@@ -61,6 +61,8 @@ public class UserExtend implements Serializable {
 
     private int sortMusicSetting;
 
+    private int selectResultScoreViewType;
+
     // Int array
     @Convert(converter = IntArrayToString.class)
     private List<Integer> selectedCardList;

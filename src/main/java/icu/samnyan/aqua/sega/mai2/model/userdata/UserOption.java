@@ -116,6 +116,12 @@ public class UserOption implements Serializable {
 
     private int sortMusic;
 
+    private int outFrameType;
+
+    private int breakSlideVolume;
+
+    private int touchVolume;
+
     public UserOption(UserData user) {
         this.user = user;
     }

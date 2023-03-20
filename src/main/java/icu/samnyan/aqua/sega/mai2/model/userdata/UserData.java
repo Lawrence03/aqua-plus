@@ -190,4 +190,6 @@ public class UserData implements Serializable {
     private String lastTrialPlayDate;
 
     private int banState;
+
+    private int mapStock;
 }
