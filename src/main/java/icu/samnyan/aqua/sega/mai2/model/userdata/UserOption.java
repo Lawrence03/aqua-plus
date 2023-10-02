@@ -122,6 +122,10 @@ public class UserOption implements Serializable {
 
     private int touchVolume;
 
+    private int damageSeVolume;
+
+    private int tapSe;
+
     public UserOption(UserData user) {
         this.user = user;
     }

@@ -245,4 +245,12 @@ public class UserPlaylog implements Serializable {
     private boolean isPhotoUpload = false;
 
     private int trialPlayAchievement;
+
+    private int extNum1;
+
+    private int extNum2;
+
+    private int extNum4;
+
+    private boolean extBool1;
 }

@@ -51,7 +51,7 @@ public class UserMusic implements Serializable {
     private boolean isAllJustice;
 
     @JsonProperty("isSuccess")
-    private boolean isSuccess;
+    private int isSuccess;
 
     private int fullChain;
 

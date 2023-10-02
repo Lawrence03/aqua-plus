@@ -192,4 +192,8 @@ public class UserData implements Serializable {
     private int banState;
 
     private int mapStock;
+
+    private int currentPlayCount;
+
+    private int renameCredit;
 }
