@@ -30,6 +30,8 @@ public class StringMapper {
         SimpleModule module = new SimpleModule();
         module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        module.addDeserializer(Integer.class, new StringBooleanDeserializer());
+        module.addDeserializer(int.class, new StringBooleanDeserializer());
         module.addSerializer(Boolean.class, new BooleanStringSerializer());
         module.addSerializer(boolean.class, new BooleanStringSerializer());
         mapper = JsonMapper.builder()
