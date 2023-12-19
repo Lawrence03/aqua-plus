@@ -173,5 +173,8 @@ public class UserData implements Serializable {
     private String extStr2;
     private int extLong1;
     private int extLong2;
+    // Seems removed in Luminous
     private String rankUpChallengeResults;
+    private boolean isNetBattleHost;
+    private int netBattleEndState;
 }

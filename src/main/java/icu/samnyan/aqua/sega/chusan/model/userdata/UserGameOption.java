@@ -130,6 +130,10 @@ public class UserGameOption implements Serializable {
 
     private int ext10;
 
+    private int judgeSlideHold;
+
+    private int judgeTap;
+
     public UserGameOption(UserData userData) {
         user = userData;
     }

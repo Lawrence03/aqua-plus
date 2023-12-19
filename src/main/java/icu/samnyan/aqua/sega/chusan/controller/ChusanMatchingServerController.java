@@ -16,6 +16,6 @@ public class ChusanMatchingServerController {
 
     @PostMapping(value = "Ping")
     String getGameCharge(@ModelAttribute Map<String, Object> request) {
-        return "{\"returnCode\":\"-1\"}";
+        return "{\"returnCode\":\"1\"}";
     }
 }

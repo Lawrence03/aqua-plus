@@ -78,4 +78,7 @@ public class UpsertUserAll implements Serializable {
     @JsonProperty("isNewDuelList")
     private String isNewDuelList;
 
+    @Nullable
+    @JsonProperty("userCMissionList")
+    private List<UserCMission> userCMissionList;
 }

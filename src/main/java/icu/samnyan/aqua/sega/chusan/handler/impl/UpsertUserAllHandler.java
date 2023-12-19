@@ -44,6 +44,8 @@ public class UpsertUserAllHandler implements BaseHandler {
     private final UserCourseRepository userCourseRepository;
     private final UserDuelRepository userDuelRepository;
     private final UserGeneralDataRepository userGeneralDataRepository;
+    private final UserCMissionRepository userCMissionRepository;
+    private final UserCMissionProgressRepository userCMissionProgressRepository;
 
     @Autowired
     public UpsertUserAllHandler(StringMapper mapper,
@@ -60,7 +62,9 @@ public class UpsertUserAllHandler implements BaseHandler {
                                 UserChargeRepository userChargeRepository,
                                 UserCourseRepository userCourseRepository,
                                 UserDuelRepository userDuelRepository,
-                                UserGeneralDataRepository userGeneralDataRepository) {
+                                UserGeneralDataRepository userGeneralDataRepository,
+                                UserCMissionRepository userCMissionRepository,
+                                UserCMissionProgressRepository userCMissionProgressRepository) {
         this.mapper = mapper;
         this.cardService = cardService;
         this.userDataRepository = userDataRepository;
@@ -76,6 +80,8 @@ public class UpsertUserAllHandler implements BaseHandler {
         this.userCourseRepository = userCourseRepository;
         this.userDuelRepository = userDuelRepository;
         this.userGeneralDataRepository = userGeneralDataRepository;
+        this.userCMissionRepository = userCMissionRepository;
+        this.userCMissionProgressRepository = userCMissionProgressRepository;
     }
 
 
@@ -330,6 +336,30 @@ public class UpsertUserAllHandler implements BaseHandler {
                 newUserDuelMap.put(duelId, newUserDuel);
             });
             userDuelRepository.saveAll(newUserDuelMap.values());
+        }
+
+        // userCMission
+        if (upsertUserAll.getUserCMissionList() != null) {
+            List<UserCMission> userCMissionList = upsertUserAll.getUserCMissionList();
+            List<UserCMission> newUserCMissionList = new ArrayList<>();
+
+            userCMissionList.forEach(newUserCMission -> {
+                int missionId = newUserCMission.getMissionId();
+
+                Optional<UserCMission> userCMissionOptional = userCMissionRepository
+                        .findByUserAndMissionId(newUserData, missionId);
+                UserCMission userCMission = userCMissionOptional.orElseGet(() -> new UserCMission(newUserData));
+
+                newUserCMission.setId(userCMission.getId());
+                newUserCMission.setUser(userCMission.getUser());
+
+                newUserCMissionList.add(newUserCMission);
+
+                for (UserCMissionProgress userCMissionProgress : newUserCMission.getUserCMissionProgressList()) {
+                    userCMissionProgress.setUserCMission(newUserCMission);
+                }
+            });
+            userCMissionRepository.saveAll(newUserCMissionList);
         }
 
         String json = mapper.write(new CodeResp(1));

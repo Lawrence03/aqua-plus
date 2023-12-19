@@ -144,6 +144,10 @@ public class UserPlaylog implements Serializable {
 
     private int commonId;
 
+    private int machineType;
+
+    private int regionId;
+
     public UserPlaylog(UserData userData) {
         user = userData;
     }

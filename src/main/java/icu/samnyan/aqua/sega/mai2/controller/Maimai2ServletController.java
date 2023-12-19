@@ -314,4 +314,9 @@ public class Maimai2ServletController {
     public String getUserFavoriteItemApi(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
         return getUserFavoriteItemHandler.handle(request);
     }
+
+    @RequestMapping(value = "*")
+    String fallback(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return "{\"returnCode\":1}";
+    }
 }

@@ -53,6 +53,7 @@ public class ChusanServletController {
     private final UpsertUserAllHandler upsertUserAllHandler;
     private final UpsertUserChargelogHandler upsertUserChargelogHandler;
     private final GetUserNetBattleDataHandler getUserNetBattleDataHandler;
+    private final GetUserCMissionHandler getUserCMissionHandler;
 
     @Autowired
     public ChusanServletController(GameLoginHandler gameLoginHandler, GameLogoutHandler gameLogoutHandler,
@@ -79,7 +80,7 @@ public class ChusanServletController {
                                    UpsertClientSettingHandler upsertClientSettingHandler,
                                    UpsertClientTestmodeHandler upsertClientTestmodeHandler, UpsertUserAllHandler upsertUserAllHandler,
                                    UpsertUserChargelogHandler upsertUserChargelogHandler,
-                                   GetUserNetBattleDataHandler getUserNetBattleDataHandler) {
+                                   GetUserNetBattleDataHandler getUserNetBattleDataHandler, GetUserCMissionHandler getUserCMissionHandler) {
         this.gameLoginHandler = gameLoginHandler;
         this.gameLogoutHandler = gameLogoutHandler;
         this.getGameChargeHandler = getGameChargeHandler;
@@ -119,6 +120,7 @@ public class ChusanServletController {
         this.upsertUserAllHandler = upsertUserAllHandler;
         this.upsertUserChargelogHandler = upsertUserChargelogHandler;
         this.getUserNetBattleDataHandler = getUserNetBattleDataHandler;
+        this.getUserCMissionHandler = getUserCMissionHandler;
     }
 
     @PostMapping(value = "GameLoginApi")
@@ -320,5 +322,15 @@ public class ChusanServletController {
     @PostMapping(value = "GetUserNetBattleDataApi")
     String getUserNetBattleData(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
         return getUserNetBattleDataHandler.handle(request);
+    }
+
+    @PostMapping(value = "GetUserCMissionApi")
+    String getUserCMission(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return getUserCMissionHandler.handle(request);
+    }
+
+    @RequestMapping(value = "*")
+    String fallback(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return "{\"returnCode\":1}";
     }
 }

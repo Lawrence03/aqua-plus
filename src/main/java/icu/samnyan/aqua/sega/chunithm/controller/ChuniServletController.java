@@ -330,4 +330,8 @@ public class ChuniServletController {
         return upsertUserChargelogHandler.handle(request);
     }
 
+    @RequestMapping(value = "*")
+    String fallback(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return "{\"returnCode\":1}";
+    }
 }

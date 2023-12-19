@@ -52,6 +52,7 @@ public class GetUserExtendHandler implements BaseHandler {
             }
             ArrayList<Integer> selectedCardList = new ArrayList<Integer>();
             selectedCardList.add(4);
+            selectedCardList.add(6);
             extend.setSelectedCardList(selectedCardList);
             resultMap.put("userExtend", extend);
         } else {

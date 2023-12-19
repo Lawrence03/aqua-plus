@@ -264,8 +264,10 @@ public class CardmakerController {
         return "";
     }
 
-
-
+    @RequestMapping(value = "*")
+    String fallback(@ModelAttribute Map<String, Object> request) throws JsonProcessingException {
+        return "{\"returnCode\":1}";
+    }
 }
 
 
